@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "MaskedAIChat (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "MaskedAIChat (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
