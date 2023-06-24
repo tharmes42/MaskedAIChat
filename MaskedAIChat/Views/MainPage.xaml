@@ -7,6 +7,18 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        
+        <StackPanel>
+            <RichEditBox x:Name="REBSource"
+                AutomationProperties.Name="editor with custom menu"
+                Width="800" Height="200"
+                Loaded="REBSource_Loaded"
+                Unloaded="REBSource_Unloaded"
+                TextChanged="REBSource_TextChanged"
+                SelectionChanged="REBSource_SelectionChanged"/>
+            <RichEditBox x:Name="REBDestination"
+                Width="800" Height="200"                
+            />
+
+        </StackPanel>
     </Grid>
 </Page>
