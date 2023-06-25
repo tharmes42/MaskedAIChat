@@ -12,6 +12,8 @@ using Windows.UI;
 using Windows.ApplicationModel.DataTransfer;
 using MaskedAIChat.Core.Services;
 using MaskedAIChat.Core.Contracts.Services;
+using Newtonsoft.Json.Linq;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace MaskedAIChat.Views;
 
@@ -31,6 +33,11 @@ public sealed partial class MainChatPage : Page
         InitializeComponent();
     }
 
+    public void UpdateSourceTextFromModel()
+    {
+        REBDestination.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, ViewModel.chatText);
+    }
+
     private void Menu_Opening(object sender, object e)
     {
         CommandBarFlyout myFlyout = sender as CommandBarFlyout;
@@ -47,6 +54,7 @@ public sealed partial class MainChatPage : Page
     {
         REBSource.SelectionFlyout.Opening += Menu_Opening;
         REBSource.ContextFlyout.Opening += Menu_Opening;
+   
     }
 
     private void REBSource_Unloaded(object sender, RoutedEventArgs e)
@@ -55,15 +63,26 @@ public sealed partial class MainChatPage : Page
         REBSource.ContextFlyout.Opening -= Menu_Opening;
     }
 
-
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+        REBSource.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, ViewModel.chatText);
+    }
 
     private void REBSource_TextChanged(object sender, RoutedEventArgs e)
     {
         REBSource.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out var value);
+        //save to model, so we don't loose data on navigation
+        ViewModel.chatText = value;
+        //find sensitive information and build mask lisk
         maskDataService.BuildMasks(value);
+        //mask the whole text based on previously constructed mask list 
         value = maskDataService.MaskText(value);
+        //update destination chat with masked text
         REBDestination.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, value);
+        //highlight masked words
         REBDestinationHighlightMatches();
+        
     }
 
     private void REBSource_SelectionChanged(object sender, RoutedEventArgs e)

@@ -16,9 +16,9 @@
                 TextChanged="REBSource_TextChanged"
                 SelectionChanged="REBSource_SelectionChanged"
                 Paste="REBSource_Paste"/>
+
             <RichEditBox x:Name="REBDestination"
-                Width="800" Height="300"    
-                         
+                Width="800" Height="300"                      
             />
 
         </StackPanel>
