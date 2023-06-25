@@ -65,6 +65,7 @@ public sealed partial class MainChatPage : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        //TODO hier stimmt noch etwas nicht
         base.OnNavigatedTo(e);
         REBSource.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, ViewModel.chatText);
     }
