@@ -123,8 +123,8 @@
   <data name="AppDescription" xml:space="preserve">
     <value>MaskedAIChat</value>
   </data>
-  <data name="Shell_Main.Content" xml:space="preserve">
-    <value>Main</value>
+  <data name="Shell_MainChat.Content" xml:space="preserve">
+    <value>Main Chat</value>
   </data>
   <data name="Shell_Blank.Content" xml:space="preserve">
     <value>Blank</value>
@@ -203,5 +203,8 @@
   </data>
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://github.com/tharmes42/MaskedAIChat</value>
+  </data>
+  <data name="Shell_MaskDataGrid.Content" xml:space="preserve">
+    <value>Masked Data Grid</value>
   </data>
 </root>

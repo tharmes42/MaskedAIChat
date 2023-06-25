@@ -68,13 +68,17 @@ public partial class App : Application
 
             // Core Services
             services.AddSingleton<ISampleDataService, SampleDataService>();
+            services.AddSingleton<IMaskDataService, MaskDataService>();
             services.AddSingleton<IFileService, FileService>();
+
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<DataGridViewModel>();
             services.AddTransient<DataGridPage>();
+            services.AddTransient<MaskDataGridViewModel>();
+            services.AddTransient<MaskDataGridPage>();
             services.AddTransient<ContentGridDetailViewModel>();
             services.AddTransient<ContentGridDetailPage>();
             services.AddTransient<ContentGridViewModel>();
@@ -85,8 +89,8 @@ public partial class App : Application
             services.AddTransient<WebViewPage>();
             services.AddTransient<BlankViewModel>();
             services.AddTransient<BlankPage>();
-            services.AddTransient<MainViewModel>();
-            services.AddTransient<MainPage>();
+            services.AddTransient<MainChatViewModel>();
+            services.AddTransient<MainChatPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
 

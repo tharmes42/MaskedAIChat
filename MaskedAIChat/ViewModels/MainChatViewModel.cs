@@ -2,9 +2,9 @@
 
 namespace MaskedAIChat.ViewModels;
 
-public partial class MainViewModel : ObservableRecipient
+public partial class MainChatViewModel : ObservableRecipient
 {
-    public MainViewModel()
+    public MainChatViewModel()
     {
     }
 }

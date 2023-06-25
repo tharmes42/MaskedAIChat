@@ -43,9 +43,14 @@
                 TODO: Update item icons by updating FontIcon.Glyph properties.
                 https://docs.microsoft.com/windows/apps/design/style/segoe-fluent-icons-font#icon-list
                 -->
-                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="MaskedAIChat.ViewModels.MainViewModel">
+                <NavigationViewItem x:Uid="Shell_MainChat" helpers:NavigationHelper.NavigateTo="MaskedAIChat.ViewModels.MainChatViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_MaskDataGrid" helpers:NavigationHelper.NavigateTo="MaskedAIChat.ViewModels.MaskDataGridViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe80a;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_Blank" helpers:NavigationHelper.NavigateTo="MaskedAIChat.ViewModels.BlankViewModel">

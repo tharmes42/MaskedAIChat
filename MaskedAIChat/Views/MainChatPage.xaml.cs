@@ -9,19 +9,25 @@ using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
+using Windows.ApplicationModel.DataTransfer;
+using MaskedAIChat.Core.Services;
+using MaskedAIChat.Core.Contracts.Services;
 
 namespace MaskedAIChat.Views;
 
-public sealed partial class MainPage : Page
+public sealed partial class MainChatPage : Page
 {
-    public MainViewModel ViewModel
+    IMaskDataService maskDataService;
+
+    public MainChatViewModel ViewModel
     {
         get;
     }
 
-    public MainPage()
+    public MainChatPage()
     {
-        ViewModel = App.GetService<MainViewModel>();
+        ViewModel = App.GetService<MainChatViewModel>();
+        maskDataService = App.GetService<IMaskDataService>();
         InitializeComponent();
     }
 
@@ -53,20 +59,23 @@ public sealed partial class MainPage : Page
 
     private void REBSource_TextChanged(object sender, RoutedEventArgs e)
     {
-        REBSource.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string value);
+        REBSource.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out var value);
+        maskDataService.BuildMasks(value);
+        value = maskDataService.MaskText(value);
         REBDestination.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, value);
+        REBDestinationHighlightMatches();
     }
 
     private void REBSource_SelectionChanged(object sender, RoutedEventArgs e)
     {
-        REBSource.Document.Selection.GetText(TextGetOptions.None, out string selectedText);
+        REBSource.Document.Selection.GetText(TextGetOptions.None, out var selectedText);
         FindBoxHighlightMatches(selectedText);
     }
 
 
     private void FindBoxHighlightMatches(string textToFind)
     {
-        FindBoxRemoveHighlights();
+        TextBoxRemoveHighlights();
 
         Color highlightBackgroundColor = (Color)App.Current.Resources["SystemColorHighlightColor"];
         Color highlightForegroundColor = (Color)App.Current.Resources["SystemColorHighlightTextColor"];
@@ -82,7 +91,31 @@ public sealed partial class MainPage : Page
         }
     }
 
-    private void FindBoxRemoveHighlights()
+    private void REBDestinationHighlightMatches()
+    {
+        TextBoxRemoveHighlights();
+
+        Color highlightBackgroundColor = (Color)App.Current.Resources["SystemColorHighlightColor"];
+        Color highlightForegroundColor = (Color)App.Current.Resources["SystemColorHighlightTextColor"];
+
+        var masks = maskDataService.GetMasks();
+        if (masks != null)
+        {
+            foreach (var mask in masks)
+            {
+                ITextRange searchRange = REBDestination.Document.GetRange(0, 0);
+                while (searchRange.FindText(mask.MaskedText, TextConstants.MaxUnitCount, FindOptions.None) > 0)
+                {
+                    searchRange.CharacterFormat.BackgroundColor = highlightBackgroundColor;
+                    searchRange.CharacterFormat.ForegroundColor = highlightForegroundColor;
+                }
+            }
+            
+        }
+            
+    }
+
+    private void TextBoxRemoveHighlights()
     {
         ITextRange documentRange = REBDestination.Document.GetRange(0, TextConstants.MaxUnitCount);
         SolidColorBrush defaultBackground = REBDestination.Background as SolidColorBrush;
@@ -92,6 +125,24 @@ public sealed partial class MainPage : Page
         documentRange.CharacterFormat.ForegroundColor = defaultForeground.Color;
     }
 
+    private async void REBSource_Paste(object sender, TextControlPasteEventArgs e)
+    {
+        if (sender is RichEditBox)
+        {
+            DataPackageView dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Text))
+            {
+                var text = await dataPackageView.GetTextAsync();
 
+                // To output the text from this example, you need a TextBlock control
+                // with a name of "TextOutput".
+                REBSource.Document.SetText(TextSetOptions.None, text);
+               
+            }
+
+            e.Handled = true; // Mark the event as handled to prevent the default paste behavior
+            
+        }
+    }
 
 }

@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="MaskedAIChat.Views.MainPage"
+    x:Class="MaskedAIChat.Views.MainChatPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,7 +14,8 @@
                 Loaded="REBSource_Loaded"
                 Unloaded="REBSource_Unloaded"
                 TextChanged="REBSource_TextChanged"
-                SelectionChanged="REBSource_SelectionChanged"/>
+                SelectionChanged="REBSource_SelectionChanged"
+                Paste="REBSource_Paste"/>
             <RichEditBox x:Name="REBDestination"
                 Width="800" Height="300"    
                          
