@@ -1,19 +1,13 @@
-﻿using MaskedAIChat.ViewModels;
-using System;
-using System.Collections.Generic;
-using Microsoft.UI;
+﻿using MaskedAIChat.Core.Contracts.Services;
+using MaskedAIChat.ViewModels;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Windows.UI;
-using Windows.ApplicationModel.DataTransfer;
-using MaskedAIChat.Core.Services;
-using MaskedAIChat.Core.Contracts.Services;
-using Newtonsoft.Json.Linq;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.UI;
 
 namespace MaskedAIChat.Views;
 
@@ -47,12 +41,12 @@ public sealed partial class MainChatPage : Page
         }
     }
 
-    
+
     private void REBSource_Loaded(object sender, RoutedEventArgs e)
     {
         REBSource.SelectionFlyout.Opening += Menu_Opening;
         REBSource.ContextFlyout.Opening += Menu_Opening;
-   
+
     }
 
     private void REBSource_Unloaded(object sender, RoutedEventArgs e)
@@ -73,9 +67,8 @@ public sealed partial class MainChatPage : Page
     {
         REBSource.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out var value);
         //save to model, so we don't loose data on navigation,
-        //if value string is empty, we don't want to save it to model
         chatDataService.SetChatText(value);
-        
+
 
         //find sensitive information and build mask lisk
         maskDataService.BuildMasks(value);
@@ -85,7 +78,7 @@ public sealed partial class MainChatPage : Page
         REBDestination.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, value);
         //highlight masked words
         REBDestinationHighlightMatches();
-        
+
     }
 
     private void REBSource_SelectionChanged(object sender, RoutedEventArgs e)
@@ -132,9 +125,9 @@ public sealed partial class MainChatPage : Page
                     searchRange.CharacterFormat.ForegroundColor = highlightForegroundColor;
                 }
             }
-            
+
         }
-            
+
     }
 
     private void TextBoxRemoveHighlights()
@@ -159,11 +152,11 @@ public sealed partial class MainChatPage : Page
                 // To output the text from this example, you need a TextBlock control
                 // with a name of "TextOutput".
                 REBSource.Document.SetText(TextSetOptions.None, text);
-               
+
             }
 
             e.Handled = true; // Mark the event as handled to prevent the default paste behavior
-            
+
         }
     }
 

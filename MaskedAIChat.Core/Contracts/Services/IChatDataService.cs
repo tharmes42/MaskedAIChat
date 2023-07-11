@@ -1,6 +1,4 @@
-﻿using MaskedAIChat.Core.Models;
-
-namespace MaskedAIChat.Core.Contracts.Services;
+﻿namespace MaskedAIChat.Core.Contracts.Services;
 
 public interface IChatDataService
 {
@@ -8,4 +6,5 @@ public interface IChatDataService
     string GetChatText();
 
     void SetChatText(string chatText);
+
 }

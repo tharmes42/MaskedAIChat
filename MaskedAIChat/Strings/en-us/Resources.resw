@@ -207,4 +207,7 @@
   <data name="Shell_MaskDataGrid.Content" xml:space="preserve">
     <value>Masked Data Grid</value>
   </data>
+  <data name="Settings_API.Text" xml:space="preserve">
+    <value>API</value>
+  </data>
 </root>

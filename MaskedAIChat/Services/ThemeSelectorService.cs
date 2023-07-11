@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace MaskedAIChat.Services;
 
+// service to initalize the theme, using local settings service
 public class ThemeSelectorService : IThemeSelectorService
 {
     private const string SettingsKey = "AppBackgroundRequestedTheme";
