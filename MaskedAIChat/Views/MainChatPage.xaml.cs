@@ -19,6 +19,7 @@ namespace MaskedAIChat.Views;
 
 public sealed partial class MainChatPage : Page
 {
+    IChatDataService chatDataService;
     IMaskDataService maskDataService;
 
     public MainChatViewModel ViewModel
@@ -29,14 +30,11 @@ public sealed partial class MainChatPage : Page
     public MainChatPage()
     {
         ViewModel = App.GetService<MainChatViewModel>();
+        chatDataService = App.GetService<IChatDataService>();
         maskDataService = App.GetService<IMaskDataService>();
         InitializeComponent();
     }
 
-    public void UpdateSourceTextFromModel()
-    {
-        REBDestination.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, ViewModel.chatText);
-    }
 
     private void Menu_Opening(object sender, object e)
     {
@@ -67,14 +65,18 @@ public sealed partial class MainChatPage : Page
     {
         //TODO hier stimmt noch etwas nicht
         base.OnNavigatedTo(e);
+        //this is kind of asynchroneous, I read from Model, but I write to the data service -> ugly
         REBSource.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, ViewModel.chatText);
     }
 
     private void REBSource_TextChanged(object sender, RoutedEventArgs e)
     {
         REBSource.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out var value);
-        //save to model, so we don't loose data on navigation
-        ViewModel.chatText = value;
+        //save to model, so we don't loose data on navigation,
+        //if value string is empty, we don't want to save it to model
+        chatDataService.SetChatText(value);
+        
+
         //find sensitive information and build mask lisk
         maskDataService.BuildMasks(value);
         //mask the whole text based on previously constructed mask list 

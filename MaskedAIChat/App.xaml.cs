@@ -69,6 +69,7 @@ public partial class App : Application
             // Core Services
             services.AddSingleton<ISampleDataService, SampleDataService>();
             services.AddSingleton<IMaskDataService, MaskDataService>();
+            services.AddSingleton<IChatDataService, ChatDataService>();
             services.AddSingleton<IFileService, FileService>();
 
 
