@@ -1,10 +1,13 @@
-﻿namespace MaskedAIChat.Core.Contracts.Services;
+﻿using System.ComponentModel;
 
-public interface IChatDataService
+namespace MaskedAIChat.Core.Contracts.Services;
+
+public interface IChatDataService : INotifyPropertyChanged
 {
+    public string ChatText
+    {
+        get; set;
+    }
 
-    string GetChatText();
-
-    void SetChatText(string chatText);
 
 }

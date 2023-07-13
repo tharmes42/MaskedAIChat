@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using MaskedAIChat.Helpers;
+﻿using MaskedAIChat.Helpers;
 using MaskedAIChat.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,27 +8,12 @@ using Windows.Storage;
 namespace MaskedAIChat.Views;
 
 // TODO: Set the URL for your privacy policy by updating SettingsPage_PrivacyTermsLink.NavigateUri in Resources.resw.
-public sealed partial class SettingsPage : Page, INotifyPropertyChanged
+public sealed partial class SettingsPage : Page
 {
-    //setting for the API key
-    private string _apiKey = "";
 
-    public string ApiKey
-    {
-        get
-        {
-            return _apiKey;
-        }
-        set
-        {
-            Set(ref _apiKey, value);
-        }
-    }
 
     private async Task InitializeAsync()
     {
-
-        ApiKey = await ApplicationData.Current.LocalSettings.ReadAsync<string>("ApiKey");
 
         await Task.CompletedTask;
     }
@@ -93,19 +76,5 @@ public sealed partial class SettingsPage : Page, INotifyPropertyChanged
         }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
 
-    //used to update the visual elements on value change
-    private void Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-    {
-        if (Equals(storage, value))
-        {
-            return;
-        }
-
-        storage = value;
-        OnPropertyChanged(propertyName);
-    }
-
-    private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

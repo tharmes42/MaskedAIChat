@@ -1,4 +1,5 @@
-﻿using MaskedAIChat.Core.Contracts.Services;
+﻿using System.ComponentModel;
+using MaskedAIChat.Core.Contracts.Services;
 
 namespace MaskedAIChat.Core.Services;
 
@@ -6,7 +7,23 @@ namespace MaskedAIChat.Core.Services;
 public class ChatDataService : IChatDataService
 {
     private string _chatText;
-    private string _chatMaskedText;
+
+    public string ChatText
+    {
+
+        get => _chatText;
+        set
+        {
+
+            if (_chatText != value)
+            {
+                _chatText = value;
+                RaisePropertyChanged(nameof(ChatText));
+            }
+
+        }
+
+    }
 
     public ChatDataService()
     {
@@ -14,16 +31,8 @@ public class ChatDataService : IChatDataService
 
     }
 
-    public string GetChatText()
-    {
-
-        return _chatText;
-    }
-
-    public void SetChatText(string chatText)
-    {
-
-        _chatText = chatText;
-    }
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+    protected void RaisePropertyChanged(string propertyName) => OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 
 }

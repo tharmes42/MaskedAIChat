@@ -4,22 +4,44 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:MaskedAIChat.Helpers"
     mc:Ignorable="d">
+
+    
+    <!--RichEditBoxExtension.PlainText is created at runtime-->
 
     <Grid x:Name="ContentArea">
         <StackPanel>
-            <RichEditBox x:Name="REBSource"
-                AutomationProperties.Name="editor with custom menu"
+            <RichEditBox x:Name="MainChat_ChatText"
+                helpers:RichEditBoxExtension.PlainText="{x:Bind ViewModel.ChatText, Mode=TwoWay}"
+                AutomationProperties.Name="Chat Text"
                 Width="800" Height="200"
-                Loaded="REBSource_Loaded"
-                Unloaded="REBSource_Unloaded"
-                TextChanged="REBSource_TextChanged"
-                SelectionChanged="REBSource_SelectionChanged"
-                Paste="REBSource_Paste"/>
-
-            <RichEditBox x:Name="REBDestination"
-                Width="800" Height="300"                      
-            />
+                Loaded="MainChat_ChatText_Loaded"
+                Unloaded="MainChat_ChatText_Unloaded"
+                SelectionChanged="MainChat_ChatText_SelectionChanged"
+                Paste="MainChat_ChatText_Paste"
+                        
+                         
+                         />
+            <!--<RichEditBox x:Name="MainChat_ChatText"
+                local:RichEditBoxExtension.PlainText="{Binding ChatText, Mode=TwoWay}"
+                AutomationProperties.Name="Chat Text"
+                Width="800" Height="200"
+                Loaded="MainChat_ChatText_Loaded"
+                Unloaded="MainChat_ChatText_Unloaded"
+                TextChanged="MainChat_ChatText_TextChanged"
+                SelectionChanged="MainChat_ChatText_SelectionChanged"
+                Paste="MainChat_ChatText_Paste"
+                        
+                         
+                         />-->
+            <TextBlock Text="PlainText property is..." />
+            <TextBlock Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" />
+            <!--Maybe using https://stackoverflow.com/questions/343468/richtextbox-wpf-binding makes sense here-->
+            
+            <!--<RichEditBox x:Name="REBDestination"
+                Width="800" Height="300"   
+            />-->
 
         </StackPanel>
     </Grid>
