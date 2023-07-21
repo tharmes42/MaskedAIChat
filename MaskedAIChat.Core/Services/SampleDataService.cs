@@ -4,7 +4,7 @@ using MaskedAIChat.Core.Models;
 namespace MaskedAIChat.Core.Services;
 
 // This class holds sample data used by some generated pages to show how they can be used.
-// TODO: The following classes have been created to display sample data. Delete these files once your app is using real data.
+// TODO: later / The following classes have been created to display sample data. Delete these files once your app is using real data.
 // 1. Contracts/Services/ISampleDataService.cs
 // 2. Services/SampleDataService.cs
 // 3. Models/SampleCompany.cs

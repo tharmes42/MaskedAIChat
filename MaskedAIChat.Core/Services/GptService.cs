@@ -5,16 +5,23 @@ using Newtonsoft.Json;
 
 namespace MaskedAIChat.Core.Services;
 
-
+//todo: get api key from settings
+//todo: register service in startup
+//todo: write tests
 public class GptService : IGptService
 {
 
     private static readonly HttpClient HttpClient = new();
-    private const string ApiKey = "Your OpenAI API Key";
+    private string ApiKey
+    {
+        get;
+        set;
+    }
     private const string ApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
 
-    public GptService()
+    public GptService(string apiKey)
     {
+        ApiKey = apiKey;
         HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
     }
 

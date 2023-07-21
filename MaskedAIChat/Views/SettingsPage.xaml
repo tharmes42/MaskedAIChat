@@ -13,14 +13,31 @@
     <Grid>
         <StackPanel
             x:Name="ContentArea">
-            <TextBlock x:Uid="Settings_API" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock x:Uid="Settings_ApiKey_Subtitle" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <PasswordBox Name="passworBoxApiKey" Width="250" Margin="0,0,8,0"
-                    PasswordRevealMode="Hidden" AutomationProperties.Name="Simple Password"/>
-                <CheckBox Name="revealModeCheckBox" Content="Show password" IsChecked="False"
+                <PasswordBox 
+                    Name="{x:Bind ViewModel.SettingsKey_ApiKey}"
+                    Password="{x:Bind ViewModel.ApiKey, Mode=TwoWay}"
+                    PasswordChanged="{x:Bind ViewModel.SettingChanged_SaveAsync}"
+                    Margin="0,0,8,0" 
+                    Width="400" 
+                    HorizontalAlignment="Left"
+                    PasswordRevealMode="Hidden" 
+                    AutomationProperties.Name="API Key" 
+                    />
+                <CheckBox Name="revealModeCheckBox" Content="Show key" IsChecked="False"
                     Checked="RevealModeCheckbox_Changed" Unchecked="RevealModeCheckbox_Changed"/>
+                
+                <TextBlock
+                x:Uid="Settings_ApiKey_Help"
+                Margin="{StaticResource XSmallTopMargin}"
+                Style="{ThemeResource BodyTextBlockStyle}" />
+                <HyperlinkButton x:Uid="Settings_ApiKey_OpenAILink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+                
+
             </StackPanel>
+            
             <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
