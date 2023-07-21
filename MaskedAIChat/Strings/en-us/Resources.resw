@@ -210,4 +210,10 @@
   <data name="Settings_API.Text" xml:space="preserve">
     <value>API</value>
   </data>
+  <data name="MainChat_ChatText.Text" xml:space="preserve">
+    <value>Input your chat text</value>
+  </data>
+  <data name="MainChat_MaskedChatText.Text" xml:space="preserve">
+    <value>Masked chat text </value>
+  </data>
 </root>

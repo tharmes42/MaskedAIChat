@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MaskedAIChat.Contracts.ViewModels;
@@ -119,5 +120,12 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
     void RaisePropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public void SendChat()
+    {
+        //give out the masked chat text to console
+        Debug.WriteLine(MaskedChatText);
+
     }
 }

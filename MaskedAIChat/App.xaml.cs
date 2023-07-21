@@ -2,7 +2,6 @@
 using MaskedAIChat.Contracts.Services;
 using MaskedAIChat.Core.Contracts.Services;
 using MaskedAIChat.Core.Services;
-using MaskedAIChat.Helpers;
 using MaskedAIChat.Models;
 using MaskedAIChat.Services;
 using MaskedAIChat.ViewModels;
@@ -40,7 +39,10 @@ public partial class App : Application
 
     public static WindowEx MainWindow { get; } = new MainWindow();
 
-    public static UIElement? AppTitlebar { get; set; }
+    public static UIElement? AppTitlebar
+    {
+        get; set;
+    }
 
     public App()
     {
@@ -105,8 +107,12 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
+        // log to console if debugging
+        if (System.Diagnostics.Debugger.IsAttached)
+        {
+            System.Diagnostics.Debug.WriteLine(e.Exception);
+        }
     }
 
     protected async override void OnLaunched(LaunchActivatedEventArgs args)

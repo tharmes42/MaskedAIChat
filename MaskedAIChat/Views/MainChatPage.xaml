@@ -12,10 +12,11 @@
 
     <Grid x:Name="ContentArea">
         <StackPanel>
+            <TextBlock x:Uid="MainChat_ChatText" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <RichEditBox x:Name="MainChat_ChatText"
                 helpers:RichEditBoxExtension.PlainText="{x:Bind ViewModel.ChatText, Mode=TwoWay}"
                 AutomationProperties.Name="Chat Text"
-                Width="800" Height="200"
+                Height="200"
                 Loaded="MainChat_ChatText_Loaded"
                 Unloaded="MainChat_ChatText_Unloaded"
                 SelectionChanged="MainChat_ChatText_SelectionChanged"
@@ -23,6 +24,7 @@
                         
                          
                          />
+            
             <!--<RichEditBox x:Name="MainChat_ChatText"
                 local:RichEditBoxExtension.PlainText="{Binding ChatText, Mode=TwoWay}"
                 AutomationProperties.Name="Chat Text"
@@ -35,13 +37,20 @@
                         
                          
                          />-->
-            <TextBlock Text="PlainText property is..." />
+            <TextBlock x:Uid="MainChat_MaskedChatText" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <TextBlock Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" />
             <!--Maybe using https://stackoverflow.com/questions/343468/richtextbox-wpf-binding makes sense here-->
             
             <!--<RichEditBox x:Name="REBDestination"
                 Width="800" Height="300"   
             />-->
+            <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_OnSend">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Enter" Modifiers="Control" />
+                </Button.KeyboardAccelerators>
+            </Button>
+
+
 
         </StackPanel>
     </Grid>

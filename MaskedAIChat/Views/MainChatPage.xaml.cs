@@ -130,4 +130,10 @@ public sealed partial class MainChatPage : Page
         }
     }
 
+    //MainChat_SendButton_OnSend
+    private void MainChat_SendButton_OnSend(object sender, RoutedEventArgs e)
+    {
+        ViewModel.SendChat();
+    }
+
 }
