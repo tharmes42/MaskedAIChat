@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaskedAIChat.Core", "Masked
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaskedAIChat.Tests.MSTest", "MaskedAIChat.Tests.MSTest\MaskedAIChat.Tests.MSTest.csproj", "{9AFF393B-5BF1-4433-8BA5-DFBFD1144271}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaskedAIChat.CoreTests", "MaskedAIChat.CoreTests\MaskedAIChat.CoreTests.csproj", "{8FF588F7-2626-4DC2-A7F1-93702600FE24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,8 +47,8 @@ Global
 		{BCA93398-F7F9-4484-9388-4F6F09AFE703}.Release|x86.ActiveCfg = Release|x86
 		{BCA93398-F7F9-4484-9388-4F6F09AFE703}.Release|x86.Build.0 = Release|x86
 		{BCA93398-F7F9-4484-9388-4F6F09AFE703}.Release|x86.Deploy.0 = Release|x86
-		{0A6BE9D4-892A-4427-8115-7ECBEEF46FDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A6BE9D4-892A-4427-8115-7ECBEEF46FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6BE9D4-892A-4427-8115-7ECBEEF46FDE}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{0A6BE9D4-892A-4427-8115-7ECBEEF46FDE}.Debug|Any CPU.Build.0 = Debug|x64
 		{0A6BE9D4-892A-4427-8115-7ECBEEF46FDE}.Debug|arm64.ActiveCfg = Debug|arm64
 		{0A6BE9D4-892A-4427-8115-7ECBEEF46FDE}.Debug|arm64.Build.0 = Debug|arm64
 		{0A6BE9D4-892A-4427-8115-7ECBEEF46FDE}.Debug|x64.ActiveCfg = Debug|x64
@@ -77,6 +79,22 @@ Global
 		{9AFF393B-5BF1-4433-8BA5-DFBFD1144271}.Release|x64.Build.0 = Release|x64
 		{9AFF393B-5BF1-4433-8BA5-DFBFD1144271}.Release|x86.ActiveCfg = Release|x86
 		{9AFF393B-5BF1-4433-8BA5-DFBFD1144271}.Release|x86.Build.0 = Release|x86
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Debug|arm64.Build.0 = Debug|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Debug|x64.Build.0 = Debug|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Debug|x86.ActiveCfg = Debug|x86
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Debug|x86.Build.0 = Debug|x86
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Release|arm64.ActiveCfg = Release|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Release|arm64.Build.0 = Release|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Release|x64.ActiveCfg = Release|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Release|x64.Build.0 = Release|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Release|x86.ActiveCfg = Release|Any CPU
+		{8FF588F7-2626-4DC2-A7F1-93702600FE24}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

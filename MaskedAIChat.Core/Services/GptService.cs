@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using MaskedAIChat.Core.Contracts.Services;
 using Newtonsoft.Json;
 
 namespace MaskedAIChat.Core.Services;
 
-//todo: get api key from settings
-//todo: register service in startup
 //todo: write tests
 public class GptService : IGptService
 {
@@ -14,24 +13,48 @@ public class GptService : IGptService
     private static readonly HttpClient HttpClient = new();
     private string ApiKey
     {
-        get;
-        set;
+        get; set;
     }
-    private const string ApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
 
-    public GptService(string apiKey)
+    private string Model
+    {
+        get; set;
+    }
+
+
+    //private const string ApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
+    private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
+
+    public GptService(string apiKey, string model = "gpt-4")
     {
         ApiKey = apiKey;
+        Model = model;
         HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
     }
 
-    public async Task<string> GenerateTextAsync(string prompt, int maxTokens = 60)
+    public async Task<string> GenerateTextAsync(string prompt, int maxTokens = 256)
     {
-        var request = new { prompt, max_tokens = maxTokens };
+        var request = new
+        {
+            model = Model,
+            messages = new
+            {
+                prompt
+            },
+            temperature = 1,
+            max_tokens = 256,
+            top_p = 1,
+            frequency_penalty = 0,
+            presence_penalty = 0
+        };
+        // var request = new { prompt,  max_tokens = maxTokens };
         var jsonContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+
+        Debug.WriteLine(request);
 
         var response = await HttpClient.PostAsync(ApiUrl, jsonContent);
 
+        //todo: handle errors properly
         if (!response.IsSuccessStatusCode)
         {
             throw new ApplicationException("Error occurred while generating text.");

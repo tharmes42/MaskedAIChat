@@ -72,6 +72,7 @@ public partial class App : Application
             services.AddSingleton<ISampleDataService, SampleDataService>();
             services.AddSingleton<IMaskDataService, MaskDataService>();
             services.AddSingleton<IChatDataService, ChatDataService>();
+            services.AddSingleton<IGptService, GptService>();
             services.AddSingleton<IFileService, FileService>();
 
 
