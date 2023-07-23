@@ -34,11 +34,11 @@ public class TestClass
         Debug.WriteLine("TestCleanup");
     }
 
-    [TestMethod]
-    public void TestMethod()
-    {
-        Assert.IsTrue(true);
-    }
+    //[TestMethod]
+    //public void TestMethod()
+    //{
+    //    Assert.IsTrue(true);
+    //}
 
     //[UITestMethod]
     //public void UITestMethod()

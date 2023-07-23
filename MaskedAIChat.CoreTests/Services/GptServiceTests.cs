@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MaskedAIChat.Core.Services.Tests
@@ -12,7 +13,14 @@ namespace MaskedAIChat.Core.Services.Tests
         public static void ClassInitialize(TestContext context)
         {
             Debug.WriteLine("ClassInitialize");
-            _gptService = new GptService("asdf");
+
+            var builder = new ConfigurationBuilder().AddUserSecrets<GptServiceTests>();
+
+            IConfigurationRoot Configuration = builder.Build();
+
+            string apiKey = Configuration["Services:ApiKey"];
+
+            _gptService = new GptService(apiKey);
             Assert.IsNotNull(_gptService);
         }
 
@@ -35,10 +43,10 @@ namespace MaskedAIChat.Core.Services.Tests
         }
 
         [TestMethod()]
-        public async Task GenerateTextAsyncTest()
+        public async Task GenerateCompletionAsyncTest()
         {
 
-            var gptResponse = await _gptService.GenerateTextAsync("asdf");
+            var gptResponse = await _gptService.GenerateChatCompletionAsync("What's the best way to train a parrot?");
             Debug.WriteLine(gptResponse);
 
             Assert.Fail();

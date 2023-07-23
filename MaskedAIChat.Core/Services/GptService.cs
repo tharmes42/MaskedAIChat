@@ -1,16 +1,18 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
+using Azure;
+using Azure.AI.OpenAI;
 using MaskedAIChat.Core.Contracts.Services;
-using Newtonsoft.Json;
 
 namespace MaskedAIChat.Core.Services;
 
 //todo: write tests
+//using Azure.AI.OpenAI nuget package, see https://github.com/Azure/azure-sdk-for-net/blob/Azure.AI.OpenAI_1.0.0-beta.6/sdk/openai/Azure.AI.OpenAI/README.md
 public class GptService : IGptService
 {
 
-    private static readonly HttpClient HttpClient = new();
+    private OpenAIClient gptClient;
     private string ApiKey
     {
         get; set;
@@ -29,41 +31,44 @@ public class GptService : IGptService
     {
         ApiKey = apiKey;
         Model = model;
-        HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
+        //HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
+        gptClient = new OpenAIClient(ApiKey, new OpenAIClientOptions());
     }
 
-    public async Task<string> GenerateTextAsync(string prompt, int maxTokens = 256)
+    public async Task<string> GenerateChatCompletionAsync(string prompt, int maxTokens = 256)
     {
-        var request = new
+
+        var chatCompletionsOptions = new ChatCompletionsOptions()
         {
-            model = Model,
-            messages = new
+            Messages =
             {
-                prompt
-            },
-            temperature = 1,
-            max_tokens = 256,
-            top_p = 1,
-            frequency_penalty = 0,
-            presence_penalty = 0
+                new ChatMessage(ChatRole.System, "You are a helpful assistant."),
+                new ChatMessage(ChatRole.User, prompt),
+                //new ChatMessage(ChatRole.Assistant, "Arrrr! Of course, me hearty! What can I do for ye?"),
+                //new ChatMessage(ChatRole.User, "What's the best way to train a parrot?"),
+            }
         };
-        // var request = new { prompt,  max_tokens = maxTokens };
-        var jsonContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-        Debug.WriteLine(request);
+        Response<StreamingChatCompletions> response = await gptClient.GetChatCompletionsStreamingAsync(
+            deploymentOrModelName: Model,
+            chatCompletionsOptions);
+        using StreamingChatCompletions streamingChatCompletions = response.Value;
 
-        var response = await HttpClient.PostAsync(ApiUrl, jsonContent);
+        StringBuilder stringBuilder = new StringBuilder();
 
-        //todo: handle errors properly
-        if (!response.IsSuccessStatusCode)
+        await foreach (StreamingChatChoice choice in streamingChatCompletions.GetChoicesStreaming())
         {
-            throw new ApplicationException("Error occurred while generating text.");
+            await foreach (ChatMessage message in choice.GetMessageStreaming())
+            {
+                //Debug.Write(message.Content);
+                stringBuilder.Append(message.Content);
+            }
+            //Debug.WriteLine("");
         }
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var responseObject = JsonConvert.DeserializeObject<dynamic>(responseContent);
-
-        return responseObject.choices[0].text.ToString();
+        Debug.WriteLine(stringBuilder.ToString());
+        //ChatChoice responseChoice = response.Value.Choices[0];
+        //ChatChoice responseChoice = response.Value.GetChoicesStreaming()[0];
+        return stringBuilder.ToString();
     }
 
 

@@ -8,9 +8,12 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>AnyCPU;x86</Platforms>
+
+    <UserSecretsId>949ddee1-3494-494f-8fc0-fdffbafcd467</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
