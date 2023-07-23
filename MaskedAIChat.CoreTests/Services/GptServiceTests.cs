@@ -47,9 +47,10 @@ namespace MaskedAIChat.Core.Services.Tests
         {
 
             var gptResponse = await _gptService.GenerateChatCompletionAsync("What's the best way to train a parrot?");
-            Debug.WriteLine(gptResponse);
+            //Debug.WriteLine(gptResponse);
+            // find string "parrot" in gtpResponse
+            Assert.IsTrue(gptResponse.Contains("parrot"));
 
-            Assert.Fail();
         }
     }
 }
