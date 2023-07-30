@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Text;
 using Azure;
 using Azure.AI.OpenAI;
@@ -7,7 +6,6 @@ using MaskedAIChat.Core.Contracts.Services;
 
 namespace MaskedAIChat.Core.Services;
 
-//todo: write tests
 //using Azure.AI.OpenAI nuget package, see https://github.com/Azure/azure-sdk-for-net/blob/Azure.AI.OpenAI_1.0.0-beta.6/sdk/openai/Azure.AI.OpenAI/README.md
 public class GptService : IGptService
 {
@@ -35,11 +33,13 @@ public class GptService : IGptService
         gptClient = new OpenAIClient(ApiKey, new OpenAIClientOptions());
     }
 
+    // Generate completion with the provided string
     public async Task<string> GenerateChatCompletionAsync(string prompt, int maxTokens = 256)
     {
 
         var chatCompletionsOptions = new ChatCompletionsOptions()
         {
+            MaxTokens = maxTokens,
             Messages =
             {
                 new ChatMessage(ChatRole.System, "You are a helpful assistant."),
@@ -60,14 +60,30 @@ public class GptService : IGptService
         {
             await foreach (ChatMessage message in choice.GetMessageStreaming())
             {
-                //Debug.Write(message.Content);
                 stringBuilder.Append(message.Content);
             }
-            //Debug.WriteLine("");
         }
-        Debug.WriteLine(stringBuilder.ToString());
-        //ChatChoice responseChoice = response.Value.Choices[0];
-        //ChatChoice responseChoice = response.Value.GetChoicesStreaming()[0];
+        return stringBuilder.ToString();
+    }
+
+    // Generate completion with the provided ChatCompletionOptions (useful to provide chat history)
+    public async Task<string> GenerateChatCompletionAsync(ChatCompletionsOptions chatCompletionsOptions)
+    {
+
+        Response<StreamingChatCompletions> response = await gptClient.GetChatCompletionsStreamingAsync(
+            deploymentOrModelName: Model,
+            chatCompletionsOptions);
+        using StreamingChatCompletions streamingChatCompletions = response.Value;
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        await foreach (StreamingChatChoice choice in streamingChatCompletions.GetChoicesStreaming())
+        {
+            await foreach (ChatMessage message in choice.GetMessageStreaming())
+            {
+                stringBuilder.Append(message.Content);
+            }
+        }
         return stringBuilder.ToString();
     }
 

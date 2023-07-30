@@ -210,10 +210,10 @@
   <data name="Settings_ApiKey_Subtitle.Text" xml:space="preserve">
     <value>openAI API Key</value>
   </data>
-  <data name="MainChat_ChatText.Text" xml:space="preserve">
+  <data name="MainChat_ChatText_Header.Text" xml:space="preserve">
     <value>Input your chat text</value>
   </data>
-  <data name="MainChat_MaskedChatText.Text" xml:space="preserve">
+  <data name="MainChat_MaskedChatText_Header.Text" xml:space="preserve">
     <value>Masked chat text </value>
   </data>
   <data name="Settings_ApiKey_Help.Text" xml:space="preserve">
@@ -224,5 +224,8 @@
   </data>
   <data name="Settings_ApiKey_OpenAILink.NavigateUri" xml:space="preserve">
     <value>https://platform.openai.com/account/api-keys</value>
+  </data>
+  <data name="MainChat_ChatCompletionText_Header.Text" xml:space="preserve">
+    <value>Answer</value>
   </data>
 </root>

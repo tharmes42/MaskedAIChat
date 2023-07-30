@@ -12,7 +12,7 @@
 
     <Grid x:Name="ContentArea">
         <StackPanel>
-            <TextBlock x:Uid="MainChat_ChatText" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock x:Uid="MainChat_ChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <RichEditBox x:Name="MainChat_ChatText"
                 helpers:RichEditBoxExtension.PlainText="{x:Bind ViewModel.ChatText, Mode=TwoWay}"
                 AutomationProperties.Name="Chat Text"
@@ -37,8 +37,8 @@
                         
                          
                          />-->
-            <TextBlock x:Uid="MainChat_MaskedChatText" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <TextBlock Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" />
+            <TextBlock x:Uid="MainChat_MaskedChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock x:Name="MainChat_MaskedChatText" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" />
             <!--Maybe using https://stackoverflow.com/questions/343468/richtextbox-wpf-binding makes sense here-->
             
             <!--<RichEditBox x:Name="REBDestination"
@@ -50,6 +50,8 @@
                 </Button.KeyboardAccelerators>
             </Button>
 
+            <TextBlock x:Uid="MainChat_ChatCompletionText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock x:Name="MainChat_ChatCompletionText" Text="{x:Bind ViewModel.ChatCompletionText, Mode=OneWay}" />
 
 
         </StackPanel>

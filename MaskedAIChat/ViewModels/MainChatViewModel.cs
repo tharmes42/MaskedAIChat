@@ -41,6 +41,20 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
         }
     }
 
+    private string _chatCompletionText;
+    public string ChatCompletionText
+    {
+
+        get => _chatCompletionText;
+
+        set
+        {
+
+            _chatCompletionText = value;
+            RaisePropertyChanged();
+        }
+    }
+
     public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService)
     {
         _chatDataService = chatDataService;
