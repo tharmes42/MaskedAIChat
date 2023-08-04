@@ -4,19 +4,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:helpers="using:MaskedAIChat.Helpers"
+    xmlns:helpers="using:MaskedAIChat.Helpers" 
+    xmlns:local1="using:MaskedAIChat.Views"
     mc:Ignorable="d">
 
-    
+     <Page.Resources>
+        <!-- Data template used: -->
+        <!-- The data template is bound to a custom DataType called Message. -->
+        <!-- Each Message object has a color and alignment assigned to it based on whether it was
+sent or received, and those values are bound in the DataTemplate.-->
+        <DataTemplate x:Key="MessageViewTemplate" x:DataType="local1:Message">
+            <Grid Height="Auto" Margin="4" HorizontalAlignment="{x:Bind MsgAlignment}">
+                <StackPanel MinHeight="75" Width="350" Padding="10, 0, 0, 10" Background="{ThemeResource SystemColorHighlightColor}" CornerRadius="{StaticResource ControlCornerRadius}">
+                    <TextBlock Text="{x:Bind MsgText}" Padding="0, 10, 0, 0" FontSize="20" Foreground="{ThemeResource SystemColorHighlightTextColor}"/>
+                    <TextBlock Text="{x:Bind MsgDateTime}" Padding="0, 0, 0, 10" FontSize="15" Foreground="{ThemeResource SystemColorHighlightTextColor}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>   
     <!--RichEditBoxExtension.PlainText is created at runtime-->
 
     <Grid x:Name="ContentArea">
         <StackPanel>
+            <TextBlock x:Uid="MainChat_ChatCompletionText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock x:Name="MainChat_ChatCompletionText" Height="100" Text="{x:Bind ViewModel.ChatCompletionText, Mode=OneWay}" />
+
+
+       
+            
             <TextBlock x:Uid="MainChat_ChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <RichEditBox x:Name="MainChat_ChatText"
                 helpers:RichEditBoxExtension.PlainText="{x:Bind ViewModel.ChatText, Mode=TwoWay}"
                 AutomationProperties.Name="Chat Text"
-                Height="200"
+                Height="100"
                 Loaded="MainChat_ChatText_Loaded"
                 Unloaded="MainChat_ChatText_Unloaded"
                 SelectionChanged="MainChat_ChatText_SelectionChanged"
@@ -37,8 +57,7 @@
                         
                          
                          />-->
-            <TextBlock x:Uid="MainChat_MaskedChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <TextBlock x:Name="MainChat_MaskedChatText" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" />
+
             <!--Maybe using https://stackoverflow.com/questions/343468/richtextbox-wpf-binding makes sense here-->
             
             <!--<RichEditBox x:Name="REBDestination"
@@ -50,9 +69,48 @@
                 </Button.KeyboardAccelerators>
             </Button>
 
-            <TextBlock x:Uid="MainChat_ChatCompletionText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <TextBlock x:Name="MainChat_ChatCompletionText" Text="{x:Bind ViewModel.ChatCompletionText, Mode=OneWay}" />
+            <TextBlock x:Uid="MainChat_MaskedChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <TextBlock x:Name="MainChat_MaskedChatText" Height="100" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" />
 
+            <!--<Rectangle Fill="SteelBlue" Height="100" Width="150"
+               Stroke="Black" StrokeThickness="1" RadiusY="8" RadiusX="8"/>-->
+
+            <TextBlock x:Uid="MainChat_ChatList_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+  
+            
+            <StackPanel>
+                <TextBlock Margin="0 0 0 15" TextWrapping="Wrap">
+                This ListView is inverted to grow from the bottom up. It's a good way to display logs or messages, with most recent at the bottom.
+                </TextBlock>
+                <ListView
+                x:Name="InvertedListView"
+                ItemTemplate="{StaticResource MessageViewTemplate}"
+                BorderThickness="1"
+                BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                Height="400"
+                SelectionMode="None">
+
+
+                    <!-- The ItemsStackPanel must be edited to update the following two properties -->
+                    <!-- These properties allow the list to grow from the bottom -->
+
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel 
+                            ItemsUpdatingScrollMode="KeepLastItemInView" 
+                            VerticalAlignment="Bottom"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                    <!-- This setter property is created so ListViewItems correctly align to the left or right. -->
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                </ListView>
+            </StackPanel>
 
         </StackPanel>
     </Grid>
