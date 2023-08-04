@@ -136,9 +136,12 @@ public sealed partial class MainChatPage : Page
     private void MainChat_SendButton_OnSend(object sender, RoutedEventArgs e)
     {
         ViewModel.SendChat();
+        //todo: add actual chat message to the message log
         AddItemToEnd();
     }
 
+
+    //todo: remove from code behind
     //===================================================================================================================
     // Inverted List Example
     //===================================================================================================================
