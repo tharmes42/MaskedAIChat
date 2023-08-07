@@ -11,7 +11,7 @@ namespace MaskedAIChat.Views;
 public sealed partial class MainChatPage : Page
 {
     IChatDataService chatDataService;
-    int messageNumber;
+
 
     public MainChatViewModel ViewModel
     {
@@ -23,7 +23,7 @@ public sealed partial class MainChatPage : Page
         ViewModel = App.GetService<MainChatViewModel>();
         InitializeComponent();
         // Add first item to inverted list so it's not empty
-        AddItemToEnd();
+        ViewModel.AddItemToEnd();
     }
 
 
@@ -137,56 +137,11 @@ public sealed partial class MainChatPage : Page
     {
         ViewModel.SendChat();
         //todo: add actual chat message to the message log
-        AddItemToEnd();
+        ViewModel.AddItemToEnd();
     }
 
 
-    //todo: remove from code behind
-    //===================================================================================================================
-    // Inverted List Example
-    //===================================================================================================================
 
-    private void AddItemToEnd()
-    {
-        InvertedListView.Items.Add(
-            new Message("Message " + ++messageNumber, DateTime.Now, HorizontalAlignment.Right)
-            );
-    }
-
-    private void MessageReceived(object sender, RoutedEventArgs e)
-    {
-        InvertedListView.Items.Add(
-            new Message("Message " + ++messageNumber, DateTime.Now, HorizontalAlignment.Left)
-            );
-    }
 
 }
 
-//TODO: remove from Code Behind
-// https://github.com/microsoft/WinUI-Gallery/blob/main/WinUIGallery/ControlPages/ListViewPage.xaml.cs
-public class Message
-{
-    public string MsgText
-    {
-        get; private set;
-    }
-    public DateTime MsgDateTime
-    {
-        get; private set;
-    }
-    public HorizontalAlignment MsgAlignment
-    {
-        get; set;
-    }
-    public Message(string text, DateTime dateTime, HorizontalAlignment align)
-    {
-        MsgText = text;
-        MsgDateTime = dateTime;
-        MsgAlignment = align;
-    }
-
-    public override string ToString()
-    {
-        return MsgDateTime.ToString() + " " + MsgText;
-    }
-}

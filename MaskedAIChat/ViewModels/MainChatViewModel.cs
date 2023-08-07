@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,6 +8,7 @@ using MaskedAIChat.Core.Contracts.Services;
 using MaskedAIChat.Core.Models;
 using MaskedAIChat.Core.Services;
 using MaskedAIChat.Helpers;
+using MaskedAIChat.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
@@ -17,7 +19,7 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
 {
     private IChatDataService _chatDataService;
     private IMaskDataService _maskDataService;
-
+    int messageNumber;
 
     public string ChatText
     {
@@ -55,11 +57,23 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
         }
     }
 
+    //https://stackoverflow.com/questions/73521265/binding-and-changing-a-listview-dynamically-using-mvvm
+    private ObservableCollection<MessageItem> _messageItems;
+    public ObservableCollection<MessageItem> MessageItems
+    {
+        //todo: attach to chatdataservice.Messages
+        get => _messageItems;
+        set => SetProperty(ref _messageItems, value);
+    }
+
+
     public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService)
     {
         _chatDataService = chatDataService;
         _maskDataService = maskDataService;
         _chatDataService.PropertyChanged += OnModelPropertyChanged;
+        _messageItems = new ObservableCollection<MessageItem>();
+
     }
 
 
@@ -141,5 +155,25 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
         //give out the masked chat text to console
         Debug.WriteLine(MaskedChatText);
 
+    }
+
+    public void AddItemToEnd()
+    {
+        //InvertedListView.Items.Add(
+        //    new Message("Message " + ++messageNumber, DateTime.Now, HorizontalAlignment.Right)
+        //    );
+        MessageItems.Add(
+            new MessageItem("Message " + ++messageNumber, DateTime.Now, HorizontalAlignment.Right)
+            );
+    }
+
+    public void MessageReceived(object sender, RoutedEventArgs e)
+    {
+        //InvertedListView.Items.Add(
+        //    new Message("Message " + ++messageNumber, DateTime.Now, HorizontalAlignment.Left)
+        //    );
+        MessageItems.Add(
+            new MessageItem("Message " + ++messageNumber, DateTime.Now, HorizontalAlignment.Left)
+            );
     }
 }

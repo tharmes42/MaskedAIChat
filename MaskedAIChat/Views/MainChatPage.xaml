@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:MaskedAIChat.Helpers" 
-    xmlns:local1="using:MaskedAIChat.Views"
+    xmlns:models="using:MaskedAIChat.Models" 
     mc:Ignorable="d">
 
      <Page.Resources>
@@ -13,7 +13,7 @@
         <!-- The data template is bound to a custom DataType called Message. -->
         <!-- Each Message object has a color and alignment assigned to it based on whether it was
 sent or received, and those values are bound in the DataTemplate.-->
-        <DataTemplate x:Key="MessageViewTemplate" x:DataType="local1:Message">
+        <DataTemplate x:Key="MessageViewTemplate" x:DataType="models:MessageItem">
             <Grid Height="Auto" Margin="4" HorizontalAlignment="{x:Bind MsgAlignment}">
                 <StackPanel MinHeight="75" Width="350" Padding="10, 0, 0, 10" Background="{ThemeResource SystemColorHighlightColor}" CornerRadius="{StaticResource ControlCornerRadius}">
                     <TextBlock Text="{x:Bind MsgText}" Padding="0, 10, 0, 0" FontSize="20" Foreground="{ThemeResource SystemColorHighlightTextColor}"/>
@@ -84,6 +84,7 @@ sent or received, and those values are bound in the DataTemplate.-->
                 </TextBlock>
                 <ListView
                 x:Name="InvertedListView"
+                ItemsSource="{x:Bind ViewModel.MessageItems, Mode=OneWay}"
                 ItemTemplate="{StaticResource MessageViewTemplate}"
                 BorderThickness="1"
                 BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
