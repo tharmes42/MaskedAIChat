@@ -3,6 +3,7 @@ using System.Text;
 using Azure;
 using Azure.AI.OpenAI;
 using MaskedAIChat.Core.Contracts.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace MaskedAIChat.Core.Services;
 
@@ -24,6 +25,17 @@ public class GptService : IGptService
 
     //private const string ApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
     private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
+
+    public GptService(string model = "gpt-4")
+    {
+        Model = model;
+        //load api key from user secrets -> right click on project -> Manage User Secrets
+        var builder = new ConfigurationBuilder().AddUserSecrets<GptService>();
+        IConfigurationRoot Configuration = builder.Build();
+        ApiKey = Configuration["Services:ApiKey"];
+        gptClient = new OpenAIClient(ApiKey, new OpenAIClientOptions());
+    }
+
 
     public GptService(string apiKey, string model = "gpt-4")
     {

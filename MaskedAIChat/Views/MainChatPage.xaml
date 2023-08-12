@@ -15,9 +15,9 @@
 sent or received, and those values are bound in the DataTemplate.-->
         <DataTemplate x:Key="MessageViewTemplate" x:DataType="models:MessageItem">
             <Grid Height="Auto" Margin="4" HorizontalAlignment="{x:Bind MsgAlignment}">
-                <StackPanel MinHeight="75" Width="350" Padding="10, 0, 0, 10" Background="{ThemeResource SystemColorHighlightColor}" CornerRadius="{StaticResource ControlCornerRadius}">
-                    <TextBlock Text="{x:Bind MsgText}" Padding="0, 10, 0, 0" FontSize="20" Foreground="{ThemeResource SystemColorHighlightTextColor}"/>
-                    <TextBlock Text="{x:Bind MsgDateTime}" Padding="0, 0, 0, 10" FontSize="15" Foreground="{ThemeResource SystemColorHighlightTextColor}"/>
+                <StackPanel MinHeight="75" Width="600" Padding="10, 0, 0, 10" Background="{ThemeResource SystemColorHighlightColor}" CornerRadius="{StaticResource ControlCornerRadius}">
+                    <TextBlock Text="{x:Bind MsgText}" Padding="0, 10, 0, 0" FontSize="16" Foreground="{ThemeResource SystemColorHighlightTextColor}" TextWrapping="WrapWholeWords"/>
+                    <TextBlock Text="{x:Bind MsgDateTime}" Padding="0, 0, 0, 10" FontSize="12" Foreground="{ThemeResource SystemColorHighlightTextColor}"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>

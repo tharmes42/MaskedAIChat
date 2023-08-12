@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
+using Azure.AI.OpenAI;
 
 namespace MaskedAIChat.Core.Contracts.Services;
 
+
 public interface IGptService : INotifyPropertyChanged
 {
-    public interface IGptService
-    {
-        Task<string> GenerateTextAsync(string prompt, int maxTokens = 60);
-    }
-
-
+    Task<string> GenerateChatCompletionAsync(string prompt, int maxTokens = 256);
+    Task<string> GenerateChatCompletionAsync(ChatCompletionsOptions chatCompletionsOptions);
 }
+
+

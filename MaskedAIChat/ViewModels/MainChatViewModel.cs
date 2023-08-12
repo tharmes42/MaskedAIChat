@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Azure.AI.OpenAI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MaskedAIChat.Contracts.ViewModels;
 using MaskedAIChat.Core.Contracts.Services;
@@ -19,6 +20,7 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
 {
     private IChatDataService _chatDataService;
     private IMaskDataService _maskDataService;
+    private IGptService _gptService;
     int messageNumber;
 
     public string ChatText
@@ -85,11 +87,32 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
     }
 
 
-    public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService)
+    public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService, IGptService gptService)
     {
         _chatDataService = chatDataService;
         _maskDataService = maskDataService;
+        _gptService = gptService;
         _chatDataService.PropertyChanged += OnModelPropertyChanged;
+        if (_chatDataService.Messages.Count == 0)
+        {
+            chatDataService.Messages.Add(new Message("You are a highly skilled helpful assistant.", DateTime.Now, "system"));
+        }
+        //todo: remove this
+        if (ChatText.Equals(""))
+        {
+            string intialMessage =
+@"Viele Grüße
+Tobias
+
+Von: Substack Reads<read@substack.com>
+            Gesendet: Samstag, 24.Juni 2023 15:02
+An: tge@example.com
+            Betreff: Substack Reads: Our house obsession, the K-pop power shift, and Ukraine’s mobile bakery
+
+Image
+Your weekend digest of the best writing from across Substack is here!";
+            ChatText = intialMessage;
+        }
 
     }
 
@@ -104,7 +127,7 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
     public void OnNavigatedTo(object parameter)
     {
         // Run code when the app navigates to this page
-        MaskedChatText = "hello world";
+        //MaskedChatText = "hello world";
 
     }
 
@@ -169,6 +192,18 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
         }
     }
 
+    private async void AskGptService()
+    {
+        var messages = new List<ChatMessage>();
+        foreach (var message in _chatDataService.Messages)
+        {
+            //todo: check if role is system
+            messages.Add(new ChatMessage(message.MsgChatRole.Equals("assistant") ? ChatRole.Assistant : ChatRole.User, message.MsgText));
+        }
+        var chatOptions = new ChatCompletionsOptions(messages);
+        var gptResponse = await _gptService.GenerateChatCompletionAsync(chatOptions);
+        _chatDataService.Messages.Add(new Message(gptResponse, DateTime.Now, "assistant"));
+    }
 
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -183,7 +218,10 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
     {
         //give out the masked chat text to console
         Debug.WriteLine(MaskedChatText);
-        _chatDataService.Messages.Add(new Message(ChatText, DateTime.Now, "user"));
+        _chatDataService.Messages.Add(new Message(MaskedChatText, DateTime.Now, "user"));
+        //ask the gpt service for a response to the new message
+        AskGptService();
+
 
     }
 

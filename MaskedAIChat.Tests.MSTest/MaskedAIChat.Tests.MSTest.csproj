@@ -9,6 +9,7 @@
     <UseWinUI>true</UseWinUI>
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <ProjectPriFileName>resources.pri</ProjectPriFileName>
+    <UserSecretsId>71c87e82-f179-4f0f-a73b-ccd5101ab03e</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0">
