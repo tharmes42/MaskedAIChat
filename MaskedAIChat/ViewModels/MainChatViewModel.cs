@@ -58,12 +58,30 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
     }
 
     //https://stackoverflow.com/questions/73521265/binding-and-changing-a-listview-dynamically-using-mvvm
-    private ObservableCollection<MessageItem> _messageItems;
+
     public ObservableCollection<MessageItem> MessageItems
     {
         //todo: attach to chatdataservice.Messages
-        get => _messageItems;
-        set => SetProperty(ref _messageItems, value);
+        get
+        {
+            ObservableCollection<MessageItem> items = new ObservableCollection<MessageItem>();
+            foreach (var message in _chatDataService.Messages)
+            {
+                var alignment = message.MsgChatRole.Equals("assistant") ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+                items.Add(new MessageItem(message.MsgText, message.MsgDateTime, alignment));
+            }
+            return items;
+        }
+        //DateTime.Now
+        //set => SetProperty(ref _messageItems, value);
+        //set
+        //{
+        //    //_messageItems = value;
+        //    _chatDataService.Messages.Add(new Message(ChatText, DateTime.Now, "user"));
+        //    RaisePropertyChanged();
+        //}
+
+
     }
 
 
@@ -72,7 +90,6 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
         _chatDataService = chatDataService;
         _maskDataService = maskDataService;
         _chatDataService.PropertyChanged += OnModelPropertyChanged;
-        _messageItems = new ObservableCollection<MessageItem>();
 
     }
 
@@ -132,19 +149,31 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
         }
     }
 
+    // react to change notfication of Model 
     private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
+            // if we are notfied of a chattext change, rebuild masks and mask the text (this will also trigger a property change event)
             case nameof(ChatDataService.ChatText):
                 _maskDataService.BuildMasks(ChatText);
                 MaskedChatText = _maskDataService.MaskText(ChatText);
                 break;
+
+            // if we are notified of a chat history change
+            case nameof(ChatDataService.Messages):
+                //_chatDataService.Messages.Add(new Message(ChatText, DateTime.Now, "user"));
+                RaisePropertyChanged(nameof(MessageItems));
+                break;
+
         }
     }
 
+
+
     public event PropertyChangedEventHandler PropertyChanged;
 
+    // one of our viewmodels changed a property, notify the view
     void RaisePropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -154,6 +183,7 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
     {
         //give out the masked chat text to console
         Debug.WriteLine(MaskedChatText);
+        _chatDataService.Messages.Add(new Message(ChatText, DateTime.Now, "user"));
 
     }
 

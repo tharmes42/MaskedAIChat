@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using MaskedAIChat.Core.Contracts.Services;
 using MaskedAIChat.Core.Models;
@@ -12,33 +13,53 @@ public class ChatDataService : IChatDataService
     private string _chatText;
     public string ChatText
     {
-
         get => _chatText;
         set
         {
-
             if (_chatText != value)
             {
                 _chatText = value;
                 RaisePropertyChanged(nameof(ChatText));
             }
-
         }
-
     }
 
-    private ObservableCollection<Message> _messages;
+    //chat history
+    //private ObservableCollection<Message> _messages;
+    //public ObservableCollection<Message> Messages
+    //{
+    //    get => _messages;
+    //    set
+    //    {
+    //        if (_messages != value)
+    //        {
+    //            _messages = value;
+    //            RaisePropertyChanged(nameof(Messages));
+    //        }
+    //    }
+    //}
     public ObservableCollection<Message> Messages
     {
         get; set;
     }
 
-
     public ChatDataService()
     {
         _chatText ??= "";
-        _messages ??= new ObservableCollection<Message>();
+        Messages ??= new ObservableCollection<Message>();
+        Messages.CollectionChanged += OnMessageItemsCollectionChanged;
 
+    }
+
+    // https://stackoverflow.com/questions/17183812/observablecollection-setter-isnt-firing-when-item-is-added
+    private void OnMessageItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        RaisePropertyChanged(nameof(Messages));
+        //todo: get data from MessageItems instead of directly use ChatText
+        //todo: fixme
+
+        //System.Windows.MessageBox.Show("Firing");
+        //RaisePropertyChanged(() => MasterWorkerList); 
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
