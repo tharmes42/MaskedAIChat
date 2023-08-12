@@ -225,9 +225,6 @@
   <data name="Settings_ApiKey_OpenAILink.NavigateUri" xml:space="preserve">
     <value>https://platform.openai.com/account/api-keys</value>
   </data>
-  <data name="MainChat_ChatCompletionText_Header.Text" xml:space="preserve">
-    <value>Answer</value>
-  </data>
   <data name="MainChat_ChatList_Header.Text" xml:space="preserve">
     <value>Chat</value>
   </data>

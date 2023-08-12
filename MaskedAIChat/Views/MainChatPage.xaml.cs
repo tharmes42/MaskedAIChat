@@ -1,5 +1,4 @@
-﻿using MaskedAIChat.Core.Contracts.Services;
-using MaskedAIChat.ViewModels;
+﻿using MaskedAIChat.ViewModels;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,7 +9,7 @@ namespace MaskedAIChat.Views;
 
 public sealed partial class MainChatPage : Page
 {
-    IChatDataService chatDataService;
+
 
 
     public MainChatViewModel ViewModel
@@ -23,7 +22,8 @@ public sealed partial class MainChatPage : Page
         ViewModel = App.GetService<MainChatViewModel>();
         InitializeComponent();
         // Add first item to inverted list so it's not empty
-        ViewModel.AddItemToEnd();
+        // ViewModel.AddItemToEnd();
+        //MainChat_InvertedListView.ContextFlyout.Opening += Menu_Opening;
     }
 
 
@@ -36,6 +36,7 @@ public sealed partial class MainChatPage : Page
             myButton.Command = new StandardUICommand(StandardUICommandKind.Share);
             myFlyout.PrimaryCommands.Add(myButton);
         }
+
     }
 
 
@@ -51,6 +52,17 @@ public sealed partial class MainChatPage : Page
         MainChat_ChatText.SelectionFlyout.Opening -= Menu_Opening;
         MainChat_ChatText.ContextFlyout.Opening -= Menu_Opening;
     }
+
+
+    //private void MainChat_InvertedListView_Loaded(object sender, RoutedEventArgs e)
+    //{
+    //    MainChat_InvertedListView.ContextFlyout.Opening += Menu_Opening;
+    //}
+
+    //private void MainChat_InvertedListView_Unloaded(object sender, RoutedEventArgs e)
+    //{
+    //    MainChat_InvertedListView.ContextFlyout.Opening -= Menu_Opening;
+    //}
 
 
     private void MainChat_ChatText_SelectionChanged(object sender, RoutedEventArgs e)
@@ -136,10 +148,7 @@ public sealed partial class MainChatPage : Page
     private void MainChat_SendButton_OnSend(object sender, RoutedEventArgs e)
     {
         ViewModel.SendChat();
-        //todo: add actual chat message to the message log
-        ViewModel.AddItemToEnd();
     }
-
 
 
 

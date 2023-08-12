@@ -45,46 +45,22 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
         }
     }
 
-    private string _chatCompletionText;
-    public string ChatCompletionText
-    {
-
-        get => _chatCompletionText;
-
-        set
-        {
-
-            _chatCompletionText = value;
-            RaisePropertyChanged();
-        }
-    }
-
     //https://stackoverflow.com/questions/73521265/binding-and-changing-a-listview-dynamically-using-mvvm
 
     public ObservableCollection<MessageItem> MessageItems
     {
-        //todo: attach to chatdataservice.Messages
         get
         {
             ObservableCollection<MessageItem> items = new ObservableCollection<MessageItem>();
             foreach (var message in _chatDataService.Messages)
             {
                 var alignment = message.MsgChatRole.Equals("assistant") ? HorizontalAlignment.Left : HorizontalAlignment.Right;
-                items.Add(new MessageItem(message.MsgText, message.MsgDateTime, alignment));
+                items.Add(new MessageItem(message.MsgText, message.MsgDateTime, alignment, message.MsgChatRole));
             }
             return items;
         }
-        //DateTime.Now
-        //set => SetProperty(ref _messageItems, value);
-        //set
-        //{
-        //    //_messageItems = value;
-        //    _chatDataService.Messages.Add(new Message(ChatText, DateTime.Now, "user"));
-        //    RaisePropertyChanged();
-        //}
-
-
     }
+
 
 
     public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService, IGptService gptService)
@@ -192,6 +168,7 @@ Your weekend digest of the best writing from across Substack is here!";
         }
     }
 
+    //call the gpt service to generate a chat completion based on the current chat history
     private async void AskGptService()
     {
         var messages = new List<ChatMessage>();
@@ -214,6 +191,7 @@ Your weekend digest of the best writing from across Substack is here!";
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    //updates the model with the masked chat text and calls the gpt service
     public void SendChat()
     {
         //give out the masked chat text to console
@@ -225,6 +203,7 @@ Your weekend digest of the best writing from across Substack is here!";
 
     }
 
+    //add a dummy user message to the chat history
     public void AddItemToEnd()
     {
         //InvertedListView.Items.Add(
@@ -235,6 +214,7 @@ Your weekend digest of the best writing from across Substack is here!";
             );
     }
 
+    //add a dummy assistant message to the chat history
     public void MessageReceived(object sender, RoutedEventArgs e)
     {
         //InvertedListView.Items.Add(
@@ -244,4 +224,7 @@ Your weekend digest of the best writing from across Substack is here!";
             new MessageItem("Message " + ++messageNumber, DateTime.Now, HorizontalAlignment.Left)
             );
     }
+
+
+
 }

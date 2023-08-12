@@ -1,4 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 
 namespace MaskedAIChat.Models;
 
@@ -18,11 +20,32 @@ public class MessageItem
     {
         get; set;
     }
-    public MessageItem(string text, DateTime dateTime, HorizontalAlignment align)
+    public string MsgAuthor
+    {
+        get; private set;
+    }
+
+    public CommandBarFlyout MessageItemContextFlyout
+    {
+        get
+        {
+            CommandBarFlyout myFlyout = new CommandBarFlyout();
+            AppBarButton myButton = new AppBarButton();
+            myButton.Command = new StandardUICommand(StandardUICommandKind.Share);
+            myFlyout.PrimaryCommands.Add(myButton);
+            return myFlyout;
+        }
+    }
+
+
+
+
+    public MessageItem(string text, DateTime dateTime, HorizontalAlignment align, string author = "")
     {
         MsgText = text;
         MsgDateTime = dateTime;
         MsgAlignment = align;
+        MsgAuthor = author;
     }
 
     public override string ToString()
