@@ -1,7 +1,10 @@
-﻿using MaskedAIChat.ViewModels;
+﻿using System.Diagnostics;
+using MaskedAIChat.ViewModels;
+using Microsoft.UI.Input;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -9,7 +12,10 @@ namespace MaskedAIChat.Views;
 
 public sealed partial class MainChatPage : Page
 {
-
+    // Dictionary to maintain information about each active pointer. 
+    // An entry is added during PointerPressed/PointerEntered events and removed 
+    // during PointerReleased/PointerCaptureLost/PointerCanceled/PointerExited events.
+    Dictionary<uint, Microsoft.UI.Xaml.Input.Pointer> pointers;
 
 
     public MainChatViewModel ViewModel
@@ -21,6 +27,8 @@ public sealed partial class MainChatPage : Page
     {
         ViewModel = App.GetService<MainChatViewModel>();
         InitializeComponent();
+        // Initialize the dictionary.
+        pointers = new Dictionary<uint, Microsoft.UI.Xaml.Input.Pointer>();
         // Add first item to inverted list so it's not empty
         // ViewModel.AddItemToEnd();
         //MainChat_InvertedListView.ContextFlyout.Opening += Menu_Opening;
@@ -69,6 +77,19 @@ public sealed partial class MainChatPage : Page
     {
         //MainChat_ChatText.Document.Selection.GetText(TextGetOptions.None, out var selectedText);
         //FindBoxHighlightMatches(selectedText);
+    }
+
+    private void MainChat_InvertedListView_Click(object sender, RoutedEventArgs e)
+    {
+        MainChat_ShowMessageItemFlyout(sender, false);
+
+    }
+
+    private void MainChat_ShowMessageItemFlyout(object sender, bool isTransient)
+    {
+        FlyoutShowOptions myOption = new FlyoutShowOptions();
+        myOption.ShowMode = isTransient ? FlyoutShowMode.Transient : FlyoutShowMode.Standard;
+        MessageItemFlyout.ShowAt((sender as FrameworkElement), myOption);
     }
 
 
@@ -150,7 +171,66 @@ public sealed partial class MainChatPage : Page
         ViewModel.SendChat();
     }
 
+    /// <summary>
+    /// The pointer entered event handler.
+    /// We do not capture the pointer on this event.
+    /// </summary>
+    /// <param name="sender">Source of the pointer event.</param>
+    /// <param name="e">Event args for the pointer routed event.</param>
+    /// https://learn.microsoft.com/en-us/windows/apps/design/input/handle-pointer-input#pointer-event-example
+    private void MessageItem_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        // Prevent most handlers along the event route from handling the same event again.
+        e.Handled = true;
 
+        PointerPoint ptrPt = e.GetCurrentPoint((sender as FrameworkElement));
+
+        Debug.WriteLine("Pointer entered: " + ptrPt.PointerId);
+
+        // Check if pointer already exists (if enter occurred prior to down).
+        if (!pointers.ContainsKey(ptrPt.PointerId))
+        {
+            // Add contact to dictionary.
+            pointers[ptrPt.PointerId] = e.Pointer;
+        }
+
+        if (pointers.Count == 1)
+        {
+            // Change background color of target when pointer contact detected.
+            MainChat_ShowMessageItemFlyout(sender, true);
+        }
+
+    }
+
+    /// <summary>
+    /// The pointer exited event handler.
+    /// </summary>
+    /// <param name="sender">Source of the pointer event.</param>
+    /// <param name="e">Event args for the pointer routed event.</param>
+    /// https://learn.microsoft.com/en-us/windows/apps/design/input/handle-pointer-input#pointer-event-example
+    private void MessageItem_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        // Prevent most handlers along the event route from handling the same event again.
+        e.Handled = true;
+
+        PointerPoint ptrPt = e.GetCurrentPoint((sender as FrameworkElement));
+
+        Debug.WriteLine("Pointer exited: " + ptrPt.PointerId);
+
+        // Remove contact from dictionary.
+        if (pointers.ContainsKey(ptrPt.PointerId))
+        {
+            pointers[ptrPt.PointerId] = null;
+            pointers.Remove(ptrPt.PointerId);
+        }
+
+        //if (pointers.Count == 0)
+        //{
+        //    MessageItemFlyout.Hide();
+        //}
+
+
+    }
 
 }
 

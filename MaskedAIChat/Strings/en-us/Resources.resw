@@ -228,4 +228,10 @@
   <data name="MainChat_ChatList_Header.Text" xml:space="preserve">
     <value>Chat</value>
   </data>
+  <data name="FlyoutElementCopyToolTip.Content" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="FlyoutElementShareToolTip.Content" xml:space="preserve">
+    <value>Share</value>
+  </data>
 </root>

@@ -12,6 +12,7 @@ using MaskedAIChat.Helpers;
 using MaskedAIChat.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
 namespace MaskedAIChat.ViewModels;
@@ -111,6 +112,30 @@ Your weekend digest of the best writing from across Substack is here!";
     {
         // Run code when the app navigates away from this page
 
+    }
+
+    //handle click in the flyout menu
+    public void OnFlyoutElementClicked(object sender, RoutedEventArgs e)
+    {
+        Debug.WriteLine("Flyout element clicked " + (sender as FrameworkElement).ToString() + " -> " + (sender as AppBarButton).Label);
+
+        switch ((sender as AppBarButton).Label)
+        {
+
+            case "Copy":
+                var package = new DataPackage();
+                var messageItem = (MessageItem)(sender as AppBarButton).DataContext;
+                package.SetText(messageItem.MsgText);
+                Clipboard.SetContent(package);
+                break;
+            case "Share":
+                break;
+            default:
+                break;
+        }
+        // Run code when the element is clicked
+        //        //MaskedChatText = "hello world";
+        //           }
     }
 
     //update the maskedchattext on chattext change

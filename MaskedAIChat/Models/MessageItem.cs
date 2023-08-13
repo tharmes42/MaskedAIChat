@@ -1,6 +1,4 @@
 ﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace MaskedAIChat.Models;
 
@@ -25,17 +23,17 @@ public class MessageItem
         get; private set;
     }
 
-    public CommandBarFlyout MessageItemContextFlyout
-    {
-        get
-        {
-            CommandBarFlyout myFlyout = new CommandBarFlyout();
-            AppBarButton myButton = new AppBarButton();
-            myButton.Command = new StandardUICommand(StandardUICommandKind.Share);
-            myFlyout.PrimaryCommands.Add(myButton);
-            return myFlyout;
-        }
-    }
+    //public CommandBarFlyout MessageItemContextFlyout
+    //{
+    //    get
+    //    {
+    //        CommandBarFlyout myFlyout = new CommandBarFlyout();
+    //        AppBarButton myButton = new AppBarButton();
+    //        myButton.Command = new StandardUICommand(StandardUICommandKind.Share);
+    //        myFlyout.PrimaryCommands.Add(myButton);
+    //        return myFlyout;
+    //    }
+    //}
 
 
 

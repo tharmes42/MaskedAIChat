@@ -9,7 +9,28 @@
     mc:Ignorable="d">
 
      <Page.Resources>
-        <!-- Data template used: -->
+        <CommandBarFlyout Placement="BottomEdgeAlignedLeft" x:Name="MessageItemFlyout">
+            <!--<AppBarButton x:Uid="FlyoutElementCopy" Label="Copy" Icon="Copy" ToolTipService.ToolTip="Copy" Click="ViewModel.OnFlyoutElementClicked" />
+            <AppBarButton x:Uid="FlyoutElementShare" Label="Share" Icon="Share" ToolTipService.ToolTip="Share" Click="ViewModel.OnFlyoutElementClicked" />-->
+            <AppBarButton x:Uid="FlyoutElementCopy" Label="Copy" Icon="Copy"  Click="ViewModel.OnFlyoutElementClicked" >
+                <!--workaround to be able to feed ToolTip from resources, see https://github.com/microsoft/microsoft-ui-xaml/issues/3649-->
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="FlyoutElementCopyToolTip" />
+                </ToolTipService.ToolTip>
+            </AppBarButton>
+
+            <AppBarButton x:Uid="FlyoutElementShare" Label="Share" Icon="Share"  Click="ViewModel.OnFlyoutElementClicked" >
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="FlyoutElementShareToolTip" />
+                </ToolTipService.ToolTip>
+            </AppBarButton>
+            <!--<CommandBarFlyout.SecondaryCommands>
+                <AppBarButton x:Name="ResizeButton1" Label="Resize" Click="OnElementClicked" />
+                <AppBarButton x:Name="MoveButton1" Label="Move" Click="OnElementClicked" />
+            </CommandBarFlyout.SecondaryCommands>-->
+        </CommandBarFlyout>
+         
+         <!-- Data template used: -->
         <!-- The data template is bound to a custom DataType called Message. -->
         <!-- Each Message object has a color and alignment assigned to it based on whether it was
 sent or received, and those values are bound in the DataTemplate.-->
@@ -18,12 +39,17 @@ sent or received, and those values are bound in the DataTemplate.-->
                 <StackPanel MinHeight="75" Width="600" Padding="10, 0, 0, 10" 
                             Background="{ThemeResource SystemColorHighlightColor}" 
                             CornerRadius="{StaticResource ControlCornerRadius}"
-                            ContextFlyout="{x:Bind MessageItemContextFlyout}"
-                            
+                            PointerEntered="MessageItem_PointerEntered"
+                            PointerExited="MessageItem_PointerExited"
                             >
+
                     <!-- todo: winui3gallery://item/CommandBarFlyout-->
                     <!--PointerPressed=""-->
-                    <TextBlock Text="{x:Bind MsgText}" Padding="0, 10, 0, 0" FontSize="16" Foreground="{ThemeResource SystemColorHighlightTextColor}" TextWrapping="WrapWholeWords"/>
+                    <TextBlock Text="{x:Bind MsgText}" Padding="0, 10, 0, 0" FontSize="16" Foreground="{ThemeResource SystemColorHighlightTextColor}" 
+                               TextWrapping="WrapWholeWords"
+                               
+                               />
+                    <!--FlyoutBase.AttachedFlyout="{StaticResource MessageItemFlyout}"-->
                     <TextBlock  Padding="0, 0, 0, 10" FontSize="12" Foreground="{ThemeResource SystemColorHighlightTextColor}">
                         <!--Text="{x:Bind MsgDateTime}{x:Bind MsgChatRole}"-->
                         <Run Text="--" /> <!-- space -->
@@ -34,6 +60,8 @@ sent or received, and those values are bound in the DataTemplate.-->
                 </StackPanel>
             </Grid>
         </DataTemplate>
+
+
     </Page.Resources>   
     <!--RichEditBoxExtension.PlainText is created at runtime-->
 
@@ -96,8 +124,10 @@ sent or received, and those values are bound in the DataTemplate.-->
                 BorderThickness="1"
                 BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                 Height="400"
-                SelectionMode="None"
-
+                SelectionMode="Single"
+                IsItemClickEnabled="True"
+                    ItemClick="MainChat_InvertedListView_Click"
+                    
                     >
                 <!--Loaded="MainChat_InvertedListView_Loaded"
                 Unloaded="MainChat_InvertedListView_Unloaded"-->
