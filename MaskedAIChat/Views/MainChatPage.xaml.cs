@@ -165,6 +165,23 @@ public sealed partial class MainChatPage : Page
         }
     }
 
+    private async void MainChat_ChatText_Paste(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button)
+        {
+            DataPackageView dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Text))
+            {
+                var text = await dataPackageView.GetTextAsync();
+
+                // To output the text from this example, you need a TextBlock control
+                // with a name of "TextOutput".
+                MainChat_ChatText.Document.SetText(TextSetOptions.None, text);
+
+            }
+        }
+    }
+
     //MainChat_SendButton_OnSend
     private void MainChat_SendButton_OnSend(object sender, RoutedEventArgs e)
     {

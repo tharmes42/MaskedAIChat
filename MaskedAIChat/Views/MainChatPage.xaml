@@ -68,6 +68,14 @@ sent or received, and those values are bound in the DataTemplate.-->
     <Grid x:Name="ContentArea">
         <StackPanel>
             <TextBlock x:Uid="MainChat_ChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <Button Click="MainChat_ChatText_Paste" Margin="{StaticResource SmallTopBottomMargin}">
+                <StackPanel Orientation="Horizontal">
+                  <SymbolIcon Symbol="Paste" />
+                    <TextBlock Text="  "/>  <!-- space -->
+                    <TextBlock x:Uid="MainChat_ChatText_MenuPasteButtonText" />
+
+                </StackPanel>
+            </Button>
             <RichEditBox x:Name="MainChat_ChatText"
                 helpers:RichEditBoxExtension.PlainText="{x:Bind ViewModel.ChatText, Mode=TwoWay}"
                 AutomationProperties.Name="Chat Text"
@@ -76,7 +84,7 @@ sent or received, and those values are bound in the DataTemplate.-->
                 Unloaded="MainChat_ChatText_Unloaded"
                 SelectionChanged="MainChat_ChatText_SelectionChanged"
                 Paste="MainChat_ChatText_Paste"
-                        
+                Margin="{StaticResource SmallTopBottomMargin}"
                          
                          />
             
@@ -98,22 +106,22 @@ sent or received, and those values are bound in the DataTemplate.-->
             <!--<RichEditBox x:Name="REBDestination"
                 Width="800" Height="300"   
             />-->
-            <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_OnSend">
+            <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_OnSend" Margin="{StaticResource SmallTopBottomMargin}">
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Enter" Modifiers="Control" />
                 </Button.KeyboardAccelerators>
             </Button>
 
             <TextBlock x:Uid="MainChat_MaskedChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <TextBlock x:Name="MainChat_MaskedChatText" Height="100" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" />
+            <TextBlock x:Name="MainChat_MaskedChatText" Height="100" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" Margin="{StaticResource SmallTopBottomMargin}" />
 
             <!--<Rectangle Fill="SteelBlue" Height="100" Width="150"
                Stroke="Black" StrokeThickness="1" RadiusY="8" RadiusX="8"/>-->
 
             <TextBlock x:Uid="MainChat_ChatList_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
-  
-            
-            <StackPanel>
+
+
+            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock Margin="0 0 0 15" TextWrapping="Wrap">
                 <!--This ListView is inverted to grow from the bottom up. It's a good way to display logs or messages, with most recent at the bottom.-->
                 </TextBlock>

@@ -234,4 +234,7 @@
   <data name="FlyoutElementShareToolTip.Content" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="MainChat_ChatText_MenuPasteButtonText.Text" xml:space="preserve">
+    <value>Paste Text from the Clipboard</value>
+  </data>
 </root>
