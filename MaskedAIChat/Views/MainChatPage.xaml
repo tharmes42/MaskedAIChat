@@ -66,17 +66,24 @@ sent or received, and those values are bound in the DataTemplate.-->
     <!--RichEditBoxExtension.PlainText is created at runtime-->
 
     <Grid x:Name="ContentArea">
-        <StackPanel>
-            <TextBlock x:Uid="MainChat_ChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <Button Click="MainChat_ChatText_Paste" Margin="{StaticResource SmallTopBottomMargin}">
+
+
+        <Grid x:Name="ChatLayoutRoot"  Width="Auto" Height="Auto"
+              ColumnDefinitions="1*, 1*" RowDefinitions="Auto, 1*, Auto, 300">
+
+            <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Click="MainChat_ChatText_Paste" Margin="{StaticResource SmallTopBottomMargin}">
                 <StackPanel Orientation="Horizontal">
-                  <SymbolIcon Symbol="Paste" />
-                    <TextBlock Text="  "/>  <!-- space -->
+                    <SymbolIcon Symbol="Paste" />
+                    <TextBlock Text="  "/>
+                    <!-- space -->
                     <TextBlock x:Uid="MainChat_ChatText_MenuPasteButtonText" />
 
                 </StackPanel>
             </Button>
-            <RichEditBox x:Name="MainChat_ChatText"
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+
+                <TextBlock x:Uid="MainChat_ChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <RichEditBox x:Name="MainChat_ChatText"
                 helpers:RichEditBoxExtension.PlainText="{x:Bind ViewModel.ChatText, Mode=TwoWay}"
                 AutomationProperties.Name="Chat Text"
                 Height="100"
@@ -87,52 +94,37 @@ sent or received, and those values are bound in the DataTemplate.-->
                 Margin="{StaticResource SmallTopBottomMargin}"
                          
                          />
-            
-            <!--<RichEditBox x:Name="MainChat_ChatText"
-                local:RichEditBoxExtension.PlainText="{Binding ChatText, Mode=TwoWay}"
-                AutomationProperties.Name="Chat Text"
-                Width="800" Height="200"
-                Loaded="MainChat_ChatText_Loaded"
-                Unloaded="MainChat_ChatText_Unloaded"
-                TextChanged="MainChat_ChatText_TextChanged"
-                SelectionChanged="MainChat_ChatText_SelectionChanged"
-                Paste="MainChat_ChatText_Paste"
-                        
-                         
-                         />-->
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1"  Orientation="Vertical">
+                <TextBlock x:Uid="MainChat_MaskedChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <TextBlock x:Name="MainChat_MaskedChatText" Height="100" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" Margin="{StaticResource SmallTopBottomMargin}" />
+            </StackPanel>
 
-            <!--Maybe using https://stackoverflow.com/questions/343468/richtextbox-wpf-binding makes sense here-->
-            
-            <!--<RichEditBox x:Name="REBDestination"
-                Width="800" Height="300"   
-            />-->
-            <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_OnSend" Margin="{StaticResource SmallTopBottomMargin}">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Enter" Modifiers="Control" />
-                </Button.KeyboardAccelerators>
-            </Button>
-
-            <TextBlock x:Uid="MainChat_MaskedChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <TextBlock x:Name="MainChat_MaskedChatText" Height="100" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" Margin="{StaticResource SmallTopBottomMargin}" />
-
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_OnSend" Margin="{StaticResource SmallTopBottomMargin}">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Enter" Modifiers="Control" />
+                    </Button.KeyboardAccelerators>
+                </Button>
+                <Button x:Name="SendTranslateButton" Style="{StaticResource AccentButtonStyle}" Content="Send + Translate" Click="MainChat_SendButton_OnSend" Margin="{StaticResource SmallTopBottomMargin}">
+                </Button>
+            </StackPanel>
+ 
             <!--<Rectangle Fill="SteelBlue" Height="100" Width="150"
                Stroke="Black" StrokeThickness="1" RadiusY="8" RadiusX="8"/>-->
 
-            <TextBlock x:Uid="MainChat_ChatList_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <!--<TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Uid="MainChat_ChatList_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />-->
 
 
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <TextBlock Margin="0 0 0 15" TextWrapping="Wrap">
-                <!--This ListView is inverted to grow from the bottom up. It's a good way to display logs or messages, with most recent at the bottom.-->
-                </TextBlock>
+            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="{StaticResource SmallTopBottomMargin}">
                 <ListView
                 x:Name="MainChat_InvertedListView"
                 ItemsSource="{x:Bind ViewModel.MessageItems, Mode=OneWay}"
                 ItemTemplate="{StaticResource MessageViewTemplate}"
                 BorderThickness="1"
                 BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                Height="400"
-                SelectionMode="Single"
+                Height="250"
+                    SelectionMode="Single"
                 IsItemClickEnabled="True"
                     ItemClick="MainChat_InvertedListView_Click"
                     
@@ -163,6 +155,6 @@ sent or received, and those values are bound in the DataTemplate.-->
                 </ListView>
             </StackPanel>
 
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>

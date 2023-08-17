@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace MaskedAIChat.Views;
@@ -34,6 +35,27 @@ public sealed partial class MainChatPage : Page
         //MainChat_InvertedListView.ContextFlyout.Opening += Menu_Opening;
     }
 
+    private async Task InitializeAsync()
+    {
+
+        //load viewmodel settings async 
+        await ViewModel.InitializeModelAsync();
+        await Task.CompletedTask;
+    }
+
+    protected async override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        // Run code when the app navigates to this page
+
+        await InitializeAsync();
+    }
+
+
+    public void OnNavigatedFrom()
+    {
+        // Run code when the app navigates away from this page
+
+    }
 
     private void Menu_Opening(object sender, object e)
     {

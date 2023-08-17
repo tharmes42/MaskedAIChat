@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Azure.AI.OpenAI;
 using CommunityToolkit.Mvvm.ComponentModel;
+using MaskedAIChat.Contracts.Services;
 using MaskedAIChat.Contracts.ViewModels;
 using MaskedAIChat.Core.Contracts.Services;
 using MaskedAIChat.Core.Models;
@@ -17,12 +18,15 @@ using Windows.Storage;
 
 namespace MaskedAIChat.ViewModels;
 
-public partial class MainChatViewModel : ObservableRecipient, INavigationAware, INotifyPropertyChanged
+public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyChanged
 {
     private IChatDataService _chatDataService;
     private IMaskDataService _maskDataService;
     private IGptService _gptService;
+    private readonly ILocalSettingsService _localSettingsService;
     int messageNumber;
+
+    private string _apiKey;
 
     public string ChatText
     {
@@ -64,11 +68,14 @@ public partial class MainChatViewModel : ObservableRecipient, INavigationAware, 
 
 
 
-    public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService, IGptService gptService)
+    public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService, IGptService gptService, ILocalSettingsService localSettingsService)
     {
         _chatDataService = chatDataService;
         _maskDataService = maskDataService;
         _gptService = gptService;
+        _localSettingsService = localSettingsService;
+        
+        
         _chatDataService.PropertyChanged += OnModelPropertyChanged;
         if (_chatDataService.Messages.Count == 0)
         {
@@ -93,6 +100,21 @@ Your weekend digest of the best writing from across Substack is here!";
 
     }
 
+    // read all settings from local settings service
+    public async Task InitializeModelAsync()
+    {
+        var cacheApiKey = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_ApiKey);
+        if (!String.IsNullOrEmpty(cacheApiKey))
+        {
+            _apiKey = cacheApiKey;
+            //todo: handle problems with api key
+            _gptService.InitializeGptService(_apiKey, "gpt-4");
+            
+        }
+
+        await Task.CompletedTask;
+    }
+
 
     public string maskedChatText;
 
@@ -101,18 +123,7 @@ Your weekend digest of the best writing from across Substack is here!";
         return _maskDataService.GetMasks();
     }
 
-    public void OnNavigatedTo(object parameter)
-    {
-        // Run code when the app navigates to this page
-        //MaskedChatText = "hello world";
 
-    }
-
-    public void OnNavigatedFrom()
-    {
-        // Run code when the app navigates away from this page
-
-    }
 
     //handle click in the flyout menu
     public void OnFlyoutElementClicked(object sender, RoutedEventArgs e)

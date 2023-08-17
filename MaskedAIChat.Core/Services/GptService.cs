@@ -26,18 +26,19 @@ public class GptService : IGptService
     //private const string ApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
     private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
 
-    public GptService(string model = "gpt-4")
+    public GptService()
     {
-        Model = model;
+        Model = null;
+        gptClient = null;
         //load api key from user secrets -> right click on project -> Manage User Secrets
-        var builder = new ConfigurationBuilder().AddUserSecrets<GptService>();
-        IConfigurationRoot Configuration = builder.Build();
-        ApiKey = Configuration["Services:ApiKey"];
-        gptClient = new OpenAIClient(ApiKey, new OpenAIClientOptions());
+        //var builder = new ConfigurationBuilder().AddUserSecrets<GptService>();
+        //IConfigurationRoot Configuration = builder.Build();
+        //ApiKey = Configuration["Services:ApiKey"];
+        //gptClient = new OpenAIClient(ApiKey, new OpenAIClientOptions());
     }
 
 
-    public GptService(string apiKey, string model = "gpt-4")
+    public void InitializeGptService(string apiKey, string model = "gpt-4")
     {
         ApiKey = apiKey;
         Model = model;
