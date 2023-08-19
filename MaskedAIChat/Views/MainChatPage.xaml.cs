@@ -204,11 +204,16 @@ public sealed partial class MainChatPage : Page
         }
     }
 
-    //MainChat_SendButton_OnSend
-    private void MainChat_SendButton_OnSend(object sender, RoutedEventArgs e)
+    private void MainChat_SendButton_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.SendChat();
     }
+
+    private void MainChat_ClearChatButton_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.ClearChat();
+    }
+
 
     /// <summary>
     /// The pointer entered event handler.

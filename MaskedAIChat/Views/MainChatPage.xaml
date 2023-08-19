@@ -19,6 +19,14 @@
                 </ToolTipService.ToolTip>
             </AppBarButton>
 
+            <AppBarButton x:Uid="FlyoutElementReuse" Label="Reuse" Click="ViewModel.OnFlyoutElementClicked" >
+                <!--workaround to be able to feed ToolTip from resources, see https://github.com/microsoft/microsoft-ui-xaml/issues/3649-->
+                <FontIcon Glyph="&#xE752;" />
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="FlyoutElementReuseToolTip" />
+                </ToolTipService.ToolTip>
+            </AppBarButton>
+
             <AppBarButton x:Uid="FlyoutElementShare" Label="Share" Icon="Share"  Click="ViewModel.OnFlyoutElementClicked" >
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="FlyoutElementShareToolTip" />
@@ -71,10 +79,13 @@ sent or received, and those values are bound in the DataTemplate.-->
         <Grid x:Name="ChatLayoutRoot"  Width="Auto" Height="Auto"
               ColumnDefinitions="1*, 1*" RowDefinitions="Auto, 1*, Auto, 300">
 
-            <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Click="MainChat_ChatText_Paste" Margin="{StaticResource SmallTopBottomMargin}">
+            <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                    Click="MainChat_ChatText_Paste" 
+                    Margin="{StaticResource SmallTopBottomMargin}"
+                    Style="{StaticResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Paste" />
-                    <TextBlock Text="  "/>
+                    <TextBlock Text="   "/>
                     <!-- space -->
                     <TextBlock x:Uid="MainChat_ChatText_MenuPasteButtonText" />
 
@@ -97,25 +108,33 @@ sent or received, and those values are bound in the DataTemplate.-->
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1"  Orientation="Vertical">
                 <TextBlock x:Uid="MainChat_MaskedChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <TextBlock x:Name="MainChat_MaskedChatText" Height="100" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" Margin="{StaticResource SmallTopBottomMargin}" />
+                <!--https://stackoverflow.com/questions/1192335/automatic-vertical-scroll-bar-in-wpf-textblock-->
+                <ScrollViewer MaxHeight="100"  
+                    Width="Auto" 
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="MainChat_MaskedChatText" 
+
+                            Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" Margin="{StaticResource SmallTopBottomMargin}" />
+                </ScrollViewer>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_OnSend" Margin="{StaticResource SmallTopBottomMargin}">
+                <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_Click" Margin="{StaticResource SmallTopBottomMargin}">
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Enter" Modifiers="Control" />
                     </Button.KeyboardAccelerators>
                 </Button>
                 <Button x:Name="SendTranslateButton" Style="{StaticResource AccentButtonStyle}" 
                         Content="Send + Translate" 
-                        Click="MainChat_SendButton_OnSend" 
+                        Click="MainChat_SendButton_Click" 
                         Margin="{StaticResource SmallTopBottomMargin}">
                 </Button>
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="ClearChatButton" Style="{StaticResource AccentButtonStyle}" 
                         Content="Clear chat" 
-                        Click="MainChat_SendButton_OnSend" 
+                        Click="MainChat_ClearChatButton_Click" 
                         Margin="{StaticResource SmallTopBottomMargin}">
                 </Button>
             </StackPanel>
@@ -133,7 +152,7 @@ sent or received, and those values are bound in the DataTemplate.-->
                 ItemTemplate="{StaticResource MessageViewTemplate}"
                 BorderThickness="1"
                 BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                Height="250"
+                Height="240"
                     SelectionMode="Single"
                 IsItemClickEnabled="True"
                     ItemClick="MainChat_InvertedListView_Click"

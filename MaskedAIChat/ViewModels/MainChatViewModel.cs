@@ -79,24 +79,10 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         _chatDataService.PropertyChanged += OnModelPropertyChanged;
         if (_chatDataService.Messages.Count == 0)
         {
-            chatDataService.Messages.Add(new Message("You are a highly skilled helpful assistant.", DateTime.Now, "system"));
+            ClearChat();
         }
-        //todo: remove this
-        if (ChatText.Equals(""))
-        {
-            string intialMessage =
-@"Viele Grüße
-Tobias
 
-Von: Substack Reads<read@substack.com>
-            Gesendet: Samstag, 24.Juni 2023 15:02
-An: tge@example.com
-            Betreff: Substack Reads: Our house obsession, the K-pop power shift, and Ukraine’s mobile bakery
-
-Image
-Your weekend digest of the best writing from across Substack is here!";
-            ChatText = intialMessage;
-        }
+        ChatText = "";
 
     }
 
@@ -109,6 +95,9 @@ Your weekend digest of the best writing from across Substack is here!";
             _apiKey = cacheApiKey;
             //todo: handle problems with api key
             _gptService.InitializeGptService(_apiKey, "gpt-4");
+            
+            if (!_gptService.IsInitialized) throw new Exception("Failed to initalize GPT Service");
+            //_gptService.InitializeGptService(_apiKey, "gpt-4");
             
         }
 
@@ -129,15 +118,19 @@ Your weekend digest of the best writing from across Substack is here!";
     public void OnFlyoutElementClicked(object sender, RoutedEventArgs e)
     {
         Debug.WriteLine("Flyout element clicked " + (sender as FrameworkElement).ToString() + " -> " + (sender as AppBarButton).Label);
+        AppBarButton button = sender as AppBarButton;
+        var messageItem = (MessageItem)button.DataContext;
 
-        switch ((sender as AppBarButton).Label)
+        switch (button.Label)
         {
 
             case "Copy":
                 var package = new DataPackage();
-                var messageItem = (MessageItem)(sender as AppBarButton).DataContext;
                 package.SetText(messageItem.MsgText);
                 Clipboard.SetContent(package);
+                break;
+            case "Reuse":
+                ChatText = messageItem.MsgText;
                 break;
             case "Share":
                 break;
@@ -237,6 +230,14 @@ Your weekend digest of the best writing from across Substack is here!";
         AskGptService();
 
 
+    }
+
+
+    //clears the chat and sets initial message
+    public void ClearChat()
+    {
+        _chatDataService.Messages.Clear();
+        _chatDataService.Messages.Add(new Message("You are a highly skilled helpful assistant.", DateTime.Now, "system"));
     }
 
     //add a dummy user message to the chat history

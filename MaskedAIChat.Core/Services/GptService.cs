@@ -22,6 +22,8 @@ public class GptService : IGptService
         get; set;
     }
 
+    public bool IsInitialized => gptClient != null;
+
 
     //private const string ApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
     private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
