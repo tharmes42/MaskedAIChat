@@ -22,7 +22,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
 {
     private IChatDataService _chatDataService;
     private IMaskDataService _maskDataService;
-    private IGptService _gptService;
+    private ITransformerService _gptService;
     private readonly ILocalSettingsService _localSettingsService;
     int messageNumber;
 
@@ -68,7 +68,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
 
 
 
-    public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService, IGptService gptService, ILocalSettingsService localSettingsService)
+    public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService, ITransformerService gptService, ILocalSettingsService localSettingsService)
     {
         _chatDataService = chatDataService;
         _maskDataService = maskDataService;
@@ -94,7 +94,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         {
             _apiKey = cacheApiKey;
             //todo: handle problems with api key
-            _gptService.InitializeGptService(_apiKey, "gpt-4");
+            _gptService.InitializeTransformerService(_apiKey, "gpt-4");
             
             if (!_gptService.IsInitialized) throw new Exception("Failed to initalize GPT Service");
             //_gptService.InitializeGptService(_apiKey, "gpt-4");

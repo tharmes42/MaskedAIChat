@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 namespace MaskedAIChat.Core.Services;
 
 //using Azure.AI.OpenAI nuget package, see https://github.com/Azure/azure-sdk-for-net/blob/Azure.AI.OpenAI_1.0.0-beta.6/sdk/openai/Azure.AI.OpenAI/README.md
-public class GptService : IGptService
+public class TransformerServiceOpenAI : ITransformerService
 {
 
     private OpenAIClient gptClient;
@@ -28,7 +28,7 @@ public class GptService : IGptService
     //private const string ApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
     private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
 
-    public GptService()
+    public TransformerServiceOpenAI()
     {
         Model = null;
         gptClient = null;
@@ -40,7 +40,7 @@ public class GptService : IGptService
     }
 
 
-    public void InitializeGptService(string apiKey, string model = "gpt-4")
+    public void InitializeTransformerService(string apiKey, string model = "gpt-4")
     {
         ApiKey = apiKey;
         Model = model;

@@ -4,10 +4,10 @@ using Azure.AI.OpenAI;
 namespace MaskedAIChat.Core.Contracts.Services;
 
 
-public interface IGptService : INotifyPropertyChanged
+public interface ITransformerService : INotifyPropertyChanged
 {
     public bool IsInitialized { get; }
-    void InitializeGptService(string apiKey, string model = "gpt-4");
+    void InitializeTransformerService(string apiKey, string model);
     Task<string> GenerateChatCompletionAsync(string prompt, int maxTokens = 256);
     Task<string> GenerateChatCompletionAsync(ChatCompletionsOptions chatCompletionsOptions);
 }

@@ -37,14 +37,19 @@ public sealed partial class SettingsPage : Page
 
     private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
     {
-        PasswordBox passwordBox = this.FindName(ViewModel.SettingsKey_ApiKey) as PasswordBox;
+        //PasswordBox passwordBox1 = this.FindName(ViewModel.SettingsKey_ApiKey) as PasswordBox;
+
+        
         if (revealModeCheckBox.IsChecked == true)
         {
-            passwordBox.PasswordRevealMode = PasswordRevealMode.Visible;
+            Settings_ApiKey.PasswordRevealMode = PasswordRevealMode.Visible;
+            Settings_DeeplApiKey.PasswordRevealMode = PasswordRevealMode.Visible;
+
         }
         else
         {
-            passwordBox.PasswordRevealMode = PasswordRevealMode.Hidden;
+            Settings_ApiKey.PasswordRevealMode = PasswordRevealMode.Hidden;
+            Settings_DeeplApiKey.PasswordRevealMode = PasswordRevealMode.Hidden;
         }
     }
 

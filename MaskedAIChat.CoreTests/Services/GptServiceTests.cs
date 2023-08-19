@@ -21,7 +21,7 @@ namespace MaskedAIChat.Core.Services.Tests
     [TestClass()]
     public class GptServiceTests
     {
-        private static GptService _gptService;
+        private static TransformerServiceOpenAI _gptService;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)

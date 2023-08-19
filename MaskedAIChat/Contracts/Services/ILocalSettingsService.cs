@@ -8,5 +8,6 @@ public interface ILocalSettingsService
 
     // settings key names, not defined as const because it is used in page xaml
     public string SettingsKey_ApiKey => "Settings_ApiKey";
+    public string SettingsKey_DeeplApiKey => "Settings_DeeplApiKey";
 
 }

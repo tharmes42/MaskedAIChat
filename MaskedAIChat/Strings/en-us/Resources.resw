@@ -240,4 +240,16 @@
   <data name="FlyoutElementReuseToolTip.Content" xml:space="preserve">
     <value>Reuse</value>
   </data>
+  <data name="Settings_DeeplApiKey_Help.Text" xml:space="preserve">
+    <value>You can manage your secret API keys in your openAI account settings:</value>
+  </data>
+  <data name="Settings_DeeplApiKey_OpenAILink.Content" xml:space="preserve">
+    <value>https://www.deepl.com/en/account/summary</value>
+  </data>
+  <data name="Settings_DeeplApiKey_OpenAILink.NavigateUri" xml:space="preserve">
+    <value>https://www.deepl.com/en/account/summary</value>
+  </data>
+  <data name="Settings_DeeplApiKey_Subtitle.Text" xml:space="preserve">
+    <value>Deepl API Key</value>
+  </data>
 </root>

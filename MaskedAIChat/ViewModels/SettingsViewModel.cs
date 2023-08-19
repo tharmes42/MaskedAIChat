@@ -16,6 +16,8 @@ public partial class SettingsViewModel : ObservableRecipient
 {
     // settings key names, not defined as const because it is used in page xaml
     public string SettingsKey_ApiKey => _localSettingsService.SettingsKey_ApiKey;
+    public string SettingsKey_DeeplApiKey => _localSettingsService.SettingsKey_DeeplApiKey;
+
 
     private readonly ILocalSettingsService _localSettingsService;
     private readonly IThemeSelectorService _themeSelectorService;
@@ -30,6 +32,9 @@ public partial class SettingsViewModel : ObservableRecipient
     [ObservableProperty]
     private string _apiKey;
 
+    [ObservableProperty]
+    private string _deeplApiKey;
+
     public ICommand SwitchThemeCommand
     {
         get;
@@ -42,7 +47,7 @@ public partial class SettingsViewModel : ObservableRecipient
         _elementTheme = _themeSelectorService.Theme;
         _versionDescription = GetVersionDescription();
         _apiKey = ""; // ApiKey = ""; would work as well, is later initialized by InitializeModelAsync()
-
+        _deeplApiKey = "";
 
         //TODO: check if this also can by handled by SettingChanged_SaveAsync
         SwitchThemeCommand = new RelayCommand<ElementTheme>(
@@ -64,6 +69,12 @@ public partial class SettingsViewModel : ObservableRecipient
         if (!String.IsNullOrEmpty(cacheApiKey))
         {
             ApiKey = cacheApiKey;
+        }
+
+        var cacheDeeplApiKey = await _localSettingsService.ReadSettingAsync<string>(SettingsKey_DeeplApiKey);
+        if (!String.IsNullOrEmpty(cacheDeeplApiKey))
+        {
+            DeeplApiKey = cacheDeeplApiKey;
         }
 
         await Task.CompletedTask;

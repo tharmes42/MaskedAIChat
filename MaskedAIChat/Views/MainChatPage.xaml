@@ -58,11 +58,13 @@ sent or received, and those values are bound in the DataTemplate.-->
                                
                                />
                     <!--FlyoutBase.AttachedFlyout="{StaticResource MessageItemFlyout}"-->
-                    <TextBlock  Padding="0, 0, 0, 10" FontSize="12" Foreground="{ThemeResource SystemColorHighlightTextColor}">
+                    <TextBlock  Padding="0, 0, 0, 10" FontSize="12" 
+                                Foreground="{ThemeResource SystemColorHighlightTextColor}"
+                                >
                         <!--Text="{x:Bind MsgDateTime}{x:Bind MsgChatRole}"-->
                         <Run Text="--" /> <!-- space -->
                         <Run Text="{x:Bind MsgAuthor}" />
-                        <Run Text="   " /> <!-- space -->
+                        <Run Text="  "  /> <!-- space -->
                         <Run Text="{x:Bind MsgDateTime}" />
                     </TextBlock>
                 </StackPanel>
@@ -84,9 +86,7 @@ sent or received, and those values are bound in the DataTemplate.-->
                     Margin="{StaticResource SmallTopBottomMargin}"
                     Style="{StaticResource AccentButtonStyle}">
                 <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Symbol="Paste" />
-                    <TextBlock Text="   "/>
-                    <!-- space -->
+                    <SymbolIcon Symbol="Paste" Margin="{StaticResource SmallRightMargin}" />
                     <TextBlock x:Uid="MainChat_ChatText_MenuPasteButtonText" />
 
                 </StackPanel>
@@ -120,22 +120,19 @@ sent or received, and those values are bound in the DataTemplate.-->
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_Click" Margin="{StaticResource SmallTopBottomMargin}">
+                <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" 
+                        Content="Send" Click="MainChat_SendButton_Click" 
+                        Margin="{StaticResource SmallRightMargin}">
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Enter" Modifiers="Control" />
                     </Button.KeyboardAccelerators>
-                </Button>
-                <Button x:Name="SendTranslateButton" Style="{StaticResource AccentButtonStyle}" 
-                        Content="Send + Translate" 
-                        Click="MainChat_SendButton_Click" 
-                        Margin="{StaticResource SmallTopBottomMargin}">
                 </Button>
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="ClearChatButton" Style="{StaticResource AccentButtonStyle}" 
                         Content="Clear chat" 
                         Click="MainChat_ClearChatButton_Click" 
-                        Margin="{StaticResource SmallTopBottomMargin}">
+                        Margin="{StaticResource SmallLeftMargin}">
                 </Button>
             </StackPanel>
 
