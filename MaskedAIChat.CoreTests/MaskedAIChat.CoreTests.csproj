@@ -7,7 +7,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <Platforms>AnyCPU;x86</Platforms>
+    <Platforms>AnyCPU;x86;x64</Platforms>
 
     <UserSecretsId>949ddee1-3494-494f-8fc0-fdffbafcd467</UserSecretsId>
   </PropertyGroup>

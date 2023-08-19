@@ -100,16 +100,26 @@ sent or received, and those values are bound in the DataTemplate.-->
                 <TextBlock x:Name="MainChat_MaskedChatText" Height="100" Text="{x:Bind ViewModel.MaskedChatText, Mode=OneWay}" Margin="{StaticResource SmallTopBottomMargin}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                 <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" Content="Send" Click="MainChat_SendButton_OnSend" Margin="{StaticResource SmallTopBottomMargin}">
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Enter" Modifiers="Control" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <Button x:Name="SendTranslateButton" Style="{StaticResource AccentButtonStyle}" Content="Send + Translate" Click="MainChat_SendButton_OnSend" Margin="{StaticResource SmallTopBottomMargin}">
+                <Button x:Name="SendTranslateButton" Style="{StaticResource AccentButtonStyle}" 
+                        Content="Send + Translate" 
+                        Click="MainChat_SendButton_OnSend" 
+                        Margin="{StaticResource SmallTopBottomMargin}">
                 </Button>
             </StackPanel>
- 
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="ClearChatButton" Style="{StaticResource AccentButtonStyle}" 
+                        Content="Clear chat" 
+                        Click="MainChat_SendButton_OnSend" 
+                        Margin="{StaticResource SmallTopBottomMargin}">
+                </Button>
+            </StackPanel>
+
             <!--<Rectangle Fill="SteelBlue" Height="100" Width="150"
                Stroke="Black" StrokeThickness="1" RadiusY="8" RadiusX="8"/>-->
 
