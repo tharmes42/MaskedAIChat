@@ -15,7 +15,7 @@
               Height="{Binding ElementName=NavigationViewControl, Path=CompactPaneLength}"
               IsHitTestVisible="True"
               VerticalAlignment="Top">
-            <Image Source="/Assets/WindowIcon.ico"
+            <Image Source="/Assets/WindowIcon256.ico"
                    HorizontalAlignment="Left"
                    Width="16"
                    Height="16" />
@@ -46,12 +46,12 @@
                 -->
                 <NavigationViewItem x:Uid="Shell_MainChat" helpers:NavigationHelper.NavigateTo="MaskedAIChat.ViewModels.MainChatViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xED15;"/> <!--Icon called "Feedback"-->
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_MaskDataGrid" helpers:NavigationHelper.NavigateTo="MaskedAIChat.ViewModels.MaskDataGridViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe80a;"/>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE82D;"/> <!--Icon called Dictionary--> 
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <!--<NavigationViewItem x:Uid="Shell_Blank" helpers:NavigationHelper.NavigateTo="MaskedAIChat.ViewModels.BlankViewModel">
