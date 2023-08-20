@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using MaskedAIChat.Models;
 using MaskedAIChat.ViewModels;
 using Microsoft.UI.Input;
 using Microsoft.UI.Text;
@@ -28,6 +29,7 @@ public sealed partial class MainChatPage : Page
     {
         ViewModel = App.GetService<MainChatViewModel>();
         InitializeComponent();
+        MainChat_ChatText.Language = Windows.Globalization.Language.CurrentInputMethodLanguageTag;
         // Initialize the dictionary.
         pointers = new Dictionary<uint, Microsoft.UI.Xaml.Input.Pointer>();
         // Add first item to inverted list so it's not empty
@@ -101,9 +103,38 @@ public sealed partial class MainChatPage : Page
         //FindBoxHighlightMatches(selectedText);
     }
 
+    private void MainChat_MessageItem_SelectionChanged(object sender, RoutedEventArgs e)
+    {
+        TextBlock tb = sender as TextBlock;
+        if (tb != null)
+        {
+            MessageItem msgItem = tb.DataContext as MessageItem;
+            if (msgItem != null)
+            {
+                if (tb.SelectedText.Equals(""))
+                {
+                    msgItem.MsgSelectedText = null;
+                }
+                else
+                {
+                    msgItem.MsgSelectedText = tb.SelectedText;
+                }
+            }
+            Debug.WriteLine("MainChat_MessageItem_SelectionChanged" + tb.ToString());
+        }
+        else
+        {
+            Debug.WriteLine("MainChat_MessageItem_SelectionChanged" + (sender as FrameworkElement).ToString());
+        }
+
+
+        // show flyout if we a selection
+        MainChat_ShowMessageItemFlyout(sender, true);
+    }
+
     private void MainChat_InvertedListView_Click(object sender, RoutedEventArgs e)
     {
-        MainChat_ShowMessageItemFlyout(sender, false);
+        //MainChat_ShowMessageItemFlyout(sender, false);
 
     }
 
@@ -240,7 +271,7 @@ public sealed partial class MainChatPage : Page
 
         if (pointers.Count == 1)
         {
-            // Change background color of target when pointer contact detected.
+            // show flyout if we have a single pointer
             MainChat_ShowMessageItemFlyout(sender, true);
         }
 

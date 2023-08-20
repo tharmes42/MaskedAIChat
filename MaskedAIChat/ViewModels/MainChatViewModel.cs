@@ -124,17 +124,23 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             Debug.WriteLine("messageItem is null!");
             return;
         }
+        var text = messageItem.MsgText;
+        if (messageItem.MsgSelectedText != null)
+        {
+            text = messageItem.MsgSelectedText;
+        }
+
 
         switch (button.Label)
         {
 
             case "Copy":
                 var package = new DataPackage();
-                package.SetText(messageItem.MsgText);
+                package.SetText(text);
                 Clipboard.SetContent(package);
                 break;
             case "Reuse":
-                ChatText = messageItem.MsgText;
+                ChatText = text;
                 break;
             case "Share":
                 break;

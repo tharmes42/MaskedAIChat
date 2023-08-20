@@ -23,6 +23,11 @@ public class MessageItem
         get; private set;
     }
 
+    public string MsgSelectedText
+    {
+        get; set;
+    }
+
     //public CommandBarFlyout MessageItemContextFlyout
     //{
     //    get
@@ -44,6 +49,7 @@ public class MessageItem
         MsgDateTime = dateTime;
         MsgAlignment = align;
         MsgAuthor = author;
+        MsgSelectedText = null;
     }
 
     public override string ToString()

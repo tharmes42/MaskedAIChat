@@ -50,12 +50,14 @@ sent or received, and those values are bound in the DataTemplate.-->
                             PointerEntered="MessageItem_PointerEntered"
                             PointerExited="MessageItem_PointerExited"
                             >
-
+                    <!--Background="{ThemeResource SystemColorHighlightColor AccentAcrylicBackgroundFillColorBaseBrush}"-->
                     <!-- todo: winui3gallery://item/CommandBarFlyout-->
                     <!--PointerPressed=""-->
                     <TextBlock Text="{x:Bind MsgText}" Padding="0, 10, 0, 0" FontSize="16" Foreground="{ThemeResource SystemColorHighlightTextColor}" 
                                TextWrapping="WrapWholeWords"
-                               
+                               IsTextSelectionEnabled="True"
+                               SelectionHighlightColor="{StaticResource ControlStrongFillColorDefaultBrush}"
+                               SelectionChanged="MainChat_MessageItem_SelectionChanged"
                                />
                     <!--FlyoutBase.AttachedFlyout="{StaticResource MessageItemFlyout}"-->
                     <TextBlock  Padding="0, 0, 0, 10" FontSize="12" 
@@ -103,6 +105,9 @@ sent or received, and those values are bound in the DataTemplate.-->
                 SelectionChanged="MainChat_ChatText_SelectionChanged"
                 Paste="MainChat_ChatText_Paste"
                 Margin="{StaticResource SmallTopBottomMargin}"
+                IsTextPredictionEnabled = "False"
+                IsSpellCheckEnabled ="True"
+                             Language="en-US"
                          
                          />
             </StackPanel>
