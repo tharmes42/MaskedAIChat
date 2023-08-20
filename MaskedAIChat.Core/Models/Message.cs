@@ -1,4 +1,6 @@
-﻿namespace MaskedAIChat.Core.Models;
+﻿using MaskedAIChat.Core.Contracts.Services;
+
+namespace MaskedAIChat.Core.Models;
 public class Message
 {
     public string MsgText
@@ -14,12 +16,18 @@ public class Message
         get; set;
     }
 
+    public TransformerService TransformerService
+    {
+        get; set;
+    }
+
     //Source is either "User" or "Bot"
-    public Message(string text, DateTime dateTime, string chatRole)
+    public Message(string text, DateTime dateTime, string chatRole, TransformerService transformerService)
     {
         MsgText = text;
         MsgDateTime = dateTime;
         MsgChatRole = chatRole;
+        TransformerService = transformerService;
     }
 
     public override string ToString()

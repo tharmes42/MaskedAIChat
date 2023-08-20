@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using Azure.AI.OpenAI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MaskedAIChat.Contracts.Services;
-using MaskedAIChat.Contracts.ViewModels;
 using MaskedAIChat.Core.Contracts.Services;
 using MaskedAIChat.Core.Models;
 using MaskedAIChat.Core.Services;
@@ -74,8 +73,8 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         _maskDataService = maskDataService;
         _gptService = gptService;
         _localSettingsService = localSettingsService;
-        
-        
+
+
         _chatDataService.PropertyChanged += OnModelPropertyChanged;
         if (_chatDataService.Messages.Count == 0)
         {
@@ -95,10 +94,10 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             _apiKey = cacheApiKey;
             //todo: handle problems with api key
             _gptService.InitializeTransformerService(_apiKey, "gpt-4");
-            
+
             if (!_gptService.IsInitialized) throw new Exception("Failed to initalize GPT Service");
             //_gptService.InitializeGptService(_apiKey, "gpt-4");
-            
+
         }
 
         await Task.CompletedTask;
@@ -120,6 +119,11 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         Debug.WriteLine("Flyout element clicked " + (sender as FrameworkElement).ToString() + " -> " + (sender as AppBarButton).Label);
         AppBarButton button = sender as AppBarButton;
         var messageItem = (MessageItem)button.DataContext;
+        if (messageItem == null)
+        {
+            Debug.WriteLine("messageItem is null!");
+            return;
+        }
 
         switch (button.Label)
         {
@@ -208,7 +212,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         }
         var chatOptions = new ChatCompletionsOptions(messages);
         var gptResponse = await _gptService.GenerateChatCompletionAsync(chatOptions);
-        _chatDataService.Messages.Add(new Message(gptResponse, DateTime.Now, "assistant"));
+        _chatDataService.Messages.Add(new Message(gptResponse, DateTime.Now, "assistant", TransformerService.OpenAI));
     }
 
 
@@ -225,7 +229,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
     {
         //give out the masked chat text to console
         Debug.WriteLine(MaskedChatText);
-        _chatDataService.Messages.Add(new Message(MaskedChatText, DateTime.Now, "user"));
+        _chatDataService.Messages.Add(new Message(MaskedChatText, DateTime.Now, "user", TransformerService.Human));
         //ask the gpt service for a response to the new message
         AskGptService();
 
@@ -237,7 +241,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
     public void ClearChat()
     {
         _chatDataService.Messages.Clear();
-        _chatDataService.Messages.Add(new Message("You are a highly skilled helpful assistant.", DateTime.Now, "system"));
+        _chatDataService.Messages.Add(new Message("You are a highly skilled helpful assistant.", DateTime.Now, "system", TransformerService.OpenAI));
     }
 
     //add a dummy user message to the chat history
