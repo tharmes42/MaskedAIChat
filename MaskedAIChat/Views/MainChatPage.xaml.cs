@@ -323,31 +323,16 @@ public sealed partial class MainChatPage : Page
     /// </summary>  
     private void MainChat_ChatText_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
     {
-        //XamlRoot root = this.Content.XamlRoot;
+        //I want to thank the following StackOverflow post for this solution: https://stackoverflow.com/a/75940439/14880384
+        var state = InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
+        var isCtrlDown = state.HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 
-        //root.Content.key
-        //if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down) && e.Key == Windows.System.VirtualKey.Enter)
-        //{
-        //    ViewModel.SendChat();
-        //    e.Handled = true;
-        //}
-        //else
-        //{
-        //    e.Handled = false;
-        //}
-
-        //todo: somehow get the global key state modifier keys
-        Debug.WriteLine(e.Key);
-        //var ctrlState = CoreWindow.GetForCurrentThread().GetKeyState(Windows.System.VirtualKey.Control);
-        //var isCtrlDown = ctrlState == CoreVirtualKeyStates.Down || ctrlState
-        //    == (CoreVirtualKeyStates.Down | CoreVirtualKeyStates.Locked);
-        //if (isCtrlDown && e.Key == Windows.System.VirtualKey.Enter)
-        //{
-        //    // Your custom keyboard accelerator behavior.
-        //    ViewModel.SendChat();
-        //    e.Handled = true;
-        //}
-
+        if (isCtrlDown && e.Key == Windows.System.VirtualKey.Enter)
+        {
+            // Your custom keyboard accelerator behavior.
+            ViewModel.SendChat();
+            e.Handled = true;
+        }
     }
 }
 
