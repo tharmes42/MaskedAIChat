@@ -27,6 +27,15 @@
                 </ToolTipService.ToolTip>
             </AppBarButton>
 
+            <AppBarButton x:Uid="FlyoutElementTranslate" Label="Translate" Click="ViewModel.OnFlyoutElementClicked" >
+                <!--workaround to be able to feed ToolTip from resources, see https://github.com/microsoft/microsoft-ui-xaml/issues/3649-->
+                <FontIcon Glyph="&#xF2B7;" />
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="FlyoutElementTranslateToolTip" />
+                </ToolTipService.ToolTip>
+            </AppBarButton>
+            
+
             <AppBarButton x:Uid="FlyoutElementShare" Label="Share" Icon="Share"  Click="ViewModel.OnFlyoutElementClicked" >
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="FlyoutElementShareToolTip" />

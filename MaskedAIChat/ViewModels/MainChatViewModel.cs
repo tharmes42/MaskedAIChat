@@ -22,11 +22,10 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
 {
     private IChatDataService _chatDataService;
     private IMaskDataService _maskDataService;
-    private ITransformerService _gptService;
+    private ITransformerService _transformerServiceChat;
+    private ITransformerService _transformerServiceTranslate;
     private readonly ILocalSettingsService _localSettingsService;
     int messageNumber;
-
-    private string _apiKey;
 
     public string ChatText
     {
@@ -68,11 +67,12 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
 
 
 
-    public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService, ITransformerService gptService, ILocalSettingsService localSettingsService)
+    public MainChatViewModel(IChatDataService chatDataService, IMaskDataService maskDataService, ILocalSettingsService localSettingsService)
     {
         _chatDataService = chatDataService;
         _maskDataService = maskDataService;
-        _gptService = gptService;
+        _transformerServiceChat = new TransformerServiceOpenAI();
+        _transformerServiceTranslate = new TransformerServiceDeepl();
         _localSettingsService = localSettingsService;
 
 
@@ -92,11 +92,21 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         var cacheApiKey = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_ApiKey);
         if (!String.IsNullOrEmpty(cacheApiKey))
         {
-            _apiKey = cacheApiKey;
             //todo: handle problems with api key
-            _gptService.InitializeTransformerService(_apiKey, "gpt-4");
+            _transformerServiceChat.InitializeTransformerService(cacheApiKey, "gpt-4");
 
-            if (!_gptService.IsInitialized) throw new Exception("Failed to initalize GPT Service");
+            if (!_transformerServiceChat.IsInitialized) throw new Exception("Failed to initalize GPT Service");
+            //_gptService.InitializeGptService(_apiKey, "gpt-4");
+
+        }
+
+        var cacheDeeplApiKey = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_DeeplApiKey);
+        if (!String.IsNullOrEmpty(cacheDeeplApiKey))
+        {
+            //todo: handle problems with api key
+            _transformerServiceTranslate.InitializeTransformerService(cacheDeeplApiKey, "DE");
+
+            if (!_transformerServiceTranslate.IsInitialized) throw new Exception("Failed to initalize Translation Service");
             //_gptService.InitializeGptService(_apiKey, "gpt-4");
 
         }
@@ -114,7 +124,11 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
 
 
 
-    //handle click in the flyout menu
+    /// <summary>
+    /// handle click in the flyout menu
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     public void OnFlyoutElementClicked(object sender, RoutedEventArgs e)
     {
         Debug.WriteLine("Flyout element clicked " + (sender as FrameworkElement).ToString() + " -> " + (sender as AppBarButton).Label);
@@ -143,14 +157,15 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             case "Reuse":
                 ChatText = text;
                 break;
+            case "Translate":
+                SendMessageForTranslationAsync(text);
+                break;
             case "Share":
                 break;
             default:
                 break;
         }
-        // Run code when the element is clicked
-        //        //MaskedChatText = "hello world";
-        //           }
+
     }
 
 
@@ -193,8 +208,10 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         }
     }
 
-    //call the gpt service to generate a chat completion based on the current chat history
-    private async void AskGptService()
+    /// <summary>
+    /// call the gpt service to generate a chat completion based on the current chat history
+    /// </summary>
+    private async void AskChatService()
     {
         var messages = new List<ChatMessage>();
         foreach (var message in _chatDataService.Messages)
@@ -203,9 +220,11 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             messages.Add(new ChatMessage(message.MsgChatRole.Equals("assistant") ? ChatRole.Assistant : ChatRole.User, message.MsgText));
         }
         var chatOptions = new ChatCompletionsOptions(messages);
-        var gptResponse = await _gptService.GenerateChatCompletionAsync(chatOptions);
+        var gptResponse = await _transformerServiceChat.GenerateChatCompletionAsync(chatOptions);
         _chatDataService.Messages.Add(new Message(gptResponse, DateTime.Now, "assistant", TransformerService.OpenAI));
     }
+
+
 
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -216,16 +235,37 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    //updates the model with the masked chat text and calls the gpt service
+    /// <summary>
+    /// updates the model with the masked chat text and calls the gpt service
+    /// </summary>
     public void SendChat()
     {
         //give out the masked chat text to console
         Debug.WriteLine(MaskedChatText);
         _chatDataService.Messages.Add(new Message(MaskedChatText, DateTime.Now, "user", TransformerService.Human));
         //ask the gpt service for a response to the new message
-        AskGptService();
+        AskChatService();
         ChatText = "";
 
+    }
+
+    /// <summary>
+    /// sends a message to the translation service for translation
+    /// </summary>
+    /// <param name="messageItem"></param>
+    public async Task SendMessageForTranslationAsync(string msgText)
+    {
+        if (_transformerServiceTranslate.IsInitialized)
+        {
+            var culture = System.Globalization.CultureInfo.CurrentCulture;
+            _chatDataService.Messages.Add(new Message(culture.Name.ToString() + " | " + msgText, DateTime.Now, "user", TransformerService.Human));
+            var translatedText = await _transformerServiceTranslate.GenerateChatCompletionAsync(msgText);
+            _chatDataService.Messages.Add(new Message(translatedText, DateTime.Now, "assistant", TransformerService.DeepL));
+        }
+        else
+        {
+            _chatDataService.Messages.Add(new Message("Translation Service not initialized", DateTime.Now, "system", TransformerService.DeepL));
+        }
     }
 
 

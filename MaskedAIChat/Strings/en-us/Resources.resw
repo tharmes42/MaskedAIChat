@@ -261,4 +261,7 @@
   <data name="MainChat_ExportLastChatButton" xml:space="preserve">
     <value>Export last chat</value>
   </data>
+  <data name="FlyoutElementTranslateToolTip.Content" xml:space="preserve">
+    <value>Translate</value>
+  </data>
 </root>

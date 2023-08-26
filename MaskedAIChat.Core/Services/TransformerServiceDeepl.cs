@@ -23,7 +23,8 @@ public class TransformerServiceDeepl : ITransformerService
         get; set;
     }
 
-    public bool IsInitialized => translationClient != null;
+    //initalizing the transformer service is not needed for deepl
+    public bool IsInitialized => true;
 
 
     private const string ApiUrl = "https://api-free.deepl.com/v2/translate";
@@ -46,7 +47,7 @@ public class TransformerServiceDeepl : ITransformerService
         //model is here the target language
         Model = model;
         //HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
-        translationClient = new HttpClient();
+
     }
 
     // Generate completion with the provided string
@@ -55,10 +56,8 @@ public class TransformerServiceDeepl : ITransformerService
         StringBuilder stringBuilder = new StringBuilder();
 
 
-        if (translationClient == null)
-        {
-            translationClient = new HttpClient();
-        }
+        translationClient = new HttpClient();
+
 
         translationClient.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {ApiKey}");
         translationClient.DefaultRequestHeaders.Add("User-Agent", "MaskedAiChat/1.0.0");
@@ -72,7 +71,7 @@ public class TransformerServiceDeepl : ITransformerService
         var json = JsonConvert.SerializeObject(requestData);
         var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var response = await translationClient.PostAsync(ApiUrl, data);
+        HttpResponseMessage response = await translationClient.PostAsync(ApiUrl, data);
 
         if (response.IsSuccessStatusCode)
         {
@@ -90,7 +89,7 @@ public class TransformerServiceDeepl : ITransformerService
         {
             Console.WriteLine($"Failed to translate text. Status code: {response.StatusCode}");
         }
-
+        translationClient = null;
         return stringBuilder.ToString();
     }
 
