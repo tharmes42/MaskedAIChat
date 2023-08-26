@@ -238,7 +238,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         _chatDataService.Messages.Add(new Message(MaskedChatText, DateTime.Now, "user", TransformerService.Human));
         //ask the gpt service for a response to the new message
         AskGptService();
-
+        ChatText = "";
 
     }
 

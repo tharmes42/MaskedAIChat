@@ -106,10 +106,12 @@ sent or received, and those values are bound in the DataTemplate.-->
                 Paste="MainChat_ChatText_Paste"
                 Margin="{StaticResource SmallTopBottomMargin}"
                 IsTextPredictionEnabled = "False"
-                IsSpellCheckEnabled ="True"
+                IsSpellCheckEnabled ="False"
                              Language="en-US"
+                             PreviewKeyDown="MainChat_ChatText_PreviewKeyDown"
                          
                          />
+
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1"  Orientation="Vertical">
                 <TextBlock x:Uid="MainChat_MaskedChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />

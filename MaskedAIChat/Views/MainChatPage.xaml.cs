@@ -103,6 +103,12 @@ public sealed partial class MainChatPage : Page
         //FindBoxHighlightMatches(selectedText);
     }
 
+    /// <summary>
+    /// If text is selected, update the selected text in the message item before
+    /// showing the flyout
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MainChat_MessageItem_SelectionChanged(object sender, RoutedEventArgs e)
     {
         TextBlock tb = sender as TextBlock;
@@ -138,6 +144,11 @@ public sealed partial class MainChatPage : Page
 
     }
 
+    /// <summary>
+    /// Show the flyout for the selected message item
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="isTransient"></param>
     private void MainChat_ShowMessageItemFlyout(object sender, bool isTransient)
     {
         FlyoutShowOptions myOption = new FlyoutShowOptions();
@@ -307,5 +318,36 @@ public sealed partial class MainChatPage : Page
 
     }
 
+    /// <summary>
+    /// Handle Strg+Enter to send chat
+    /// </summary>  
+    private void MainChat_ChatText_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        //XamlRoot root = this.Content.XamlRoot;
+
+        //root.Content.key
+        //if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down) && e.Key == Windows.System.VirtualKey.Enter)
+        //{
+        //    ViewModel.SendChat();
+        //    e.Handled = true;
+        //}
+        //else
+        //{
+        //    e.Handled = false;
+        //}
+
+        //todo: somehow get the global key state modifier keys
+        Debug.WriteLine(e.Key);
+        //var ctrlState = CoreWindow.GetForCurrentThread().GetKeyState(Windows.System.VirtualKey.Control);
+        //var isCtrlDown = ctrlState == CoreVirtualKeyStates.Down || ctrlState
+        //    == (CoreVirtualKeyStates.Down | CoreVirtualKeyStates.Locked);
+        //if (isCtrlDown && e.Key == Windows.System.VirtualKey.Enter)
+        //{
+        //    // Your custom keyboard accelerator behavior.
+        //    ViewModel.SendChat();
+        //    e.Handled = true;
+        //}
+
+    }
 }
 
