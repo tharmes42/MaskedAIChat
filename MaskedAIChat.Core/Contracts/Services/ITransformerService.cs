@@ -18,7 +18,7 @@ public interface ITransformerService : INotifyPropertyChanged
     {
         get;
     }
-    void InitializeTransformerService(string apiKey, string model);
+    void InitializeTransformerService(string apiKey, string model = "");
     Task<string> GenerateChatCompletionAsync(string prompt, int maxTokens = 256);
     Task<string> GenerateChatCompletionAsync(ChatCompletionsOptions chatCompletionsOptions);
 }

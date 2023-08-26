@@ -1,16 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net.Http.Headers;
+﻿using System.ComponentModel;
 using System.Text;
-using System.Transactions;
-using Azure;
 using Azure.AI.OpenAI;
-using Azure.Core;
 using MaskedAIChat.Core.Contracts.Services;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Newtonsoft.Json;
 
 namespace MaskedAIChat.Core.Services;
 
@@ -34,8 +26,7 @@ public class TransformerServiceDeepl : ITransformerService
     public bool IsInitialized => translationClient != null;
 
 
-    //private const string ApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
-    private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
+    private const string ApiUrl = "https://api-free.deepl.com/v2/translate";
 
     public TransformerServiceDeepl()
     {
@@ -43,10 +34,16 @@ public class TransformerServiceDeepl : ITransformerService
         translationClient = null;
     }
 
-
-    public void InitializeTransformerService(string apiKey, string model = "default")
+    /// <summary>
+    /// initialize the transformer service
+    /// see https://www.deepl.com/docs-api
+    /// </summary>
+    /// <param name="apiKey">Deepl API Key</param>
+    /// <param name="model">Target Language</param>
+    public void InitializeTransformerService(string apiKey, string model)
     {
         ApiKey = apiKey;
+        //model is here the target language
         Model = model;
         //HttpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
         translationClient = new HttpClient();
@@ -55,8 +52,46 @@ public class TransformerServiceDeepl : ITransformerService
     // Generate completion with the provided string
     public async Task<string> GenerateChatCompletionAsync(string prompt, int maxTokens = 256)
     {
-        throw new NotImplementedException();
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+
+
+        if (translationClient == null)
+        {
+            translationClient = new HttpClient();
+        }
+
+        translationClient.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {ApiKey}");
+        translationClient.DefaultRequestHeaders.Add("User-Agent", "MaskedAiChat/1.0.0");
+
+        var requestData = new
+        {
+            text = new[] { prompt },
+            target_lang = Model
+        };
+
+        var json = JsonConvert.SerializeObject(requestData);
+        var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await translationClient.PostAsync(ApiUrl, data);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadAsStringAsync();
+            var translationResponse = JsonConvert.DeserializeObject<TranslationResponse>(result);
+
+            if (translationResponse != null && translationResponse.Translations.Count > 0)
+            {
+                Console.WriteLine($"Translated Text: {translationResponse.Translations[0].Text}");
+                Console.WriteLine($"Detected Source Language: {translationResponse.Translations[0].DetectedSourceLanguage}");
+                stringBuilder.Append(translationResponse.Translations[0].Text);
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Failed to translate text. Status code: {response.StatusCode}");
+        }
+
+        return stringBuilder.ToString();
     }
 
     // Generate completion with the provided ChatCompletionOptions (useful to provide chat history)
@@ -67,32 +102,27 @@ public class TransformerServiceDeepl : ITransformerService
         return "";
     }
 
-
-
-    static async Task TranslateText()
+    public class TranslationResponse
     {
-        var url = "https://api-free.deepl.com/v2/translate";
-        var textToTranslate = "Hello, world!";
-        var targetLang = "DE";
-
-        using (var httpClient = new HttpClient())
+        [JsonProperty("translations")]
+        public System.Collections.Generic.List<Translation> Translations
         {
+            get; set;
+        }
+    }
 
-            var formContent = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("text", textToTranslate),
-                new KeyValuePair<string, string>("target_lang", targetLang)
-            });
+    public class Translation
+    {
+        [JsonProperty("detected_source_language")]
+        public string DetectedSourceLanguage
+        {
+            get; set;
+        }
 
-            var response = await httpClient.PostAsync(url, formContent);
-
-            var data = await response.Content.ReadAsStringAsync();
-
-            var translations = JObject.Parse(data)["translations"];
-            foreach (var translation in translations)
-            {
-                Console.WriteLine(translation["text"]);
-            }
+        [JsonProperty("text")]
+        public string Text
+        {
+            get; set;
         }
     }
 

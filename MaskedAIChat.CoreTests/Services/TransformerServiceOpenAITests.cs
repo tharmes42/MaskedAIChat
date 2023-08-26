@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Azure.AI.OpenAI;
+using MaskedAIChat.Core.Contracts.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,23 +20,24 @@ and https://osherove.com/blog/2005/4/3/naming-standards-for-unit-tests.html
 namespace MaskedAIChat.Core.Services.Tests
 {
     [TestClass()]
-    public class GptServiceTests
+    public class TransformerServiceOpenAITests
     {
-        private static TransformerServiceOpenAI _gptService;
+        private static ITransformerService _transformerService;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             Debug.WriteLine("ClassInitialize");
 
-            var builder = new ConfigurationBuilder().AddUserSecrets<GptServiceTests>();
+            var builder = new ConfigurationBuilder().AddUserSecrets<TransformerServiceOpenAITests>();
 
             IConfigurationRoot Configuration = builder.Build();
 
             string apiKey = Configuration["Services:ApiKey"];
 
-            _gptService = new GptService(apiKey);
-            Assert.IsNotNull(_gptService);
+            _transformerService = new TransformerServiceOpenAI();
+            _transformerService.InitializeTransformerService(apiKey, "gpt-4");
+            Assert.IsNotNull(_transformerService);
         }
 
         [ClassCleanup]
@@ -60,7 +62,7 @@ namespace MaskedAIChat.Core.Services.Tests
         public async Task GenerateCompletionAsync_SimpleStringMessage_ReturnsAnswer()
         {
 
-            var gptResponse = await _gptService.GenerateChatCompletionAsync("What's the best way to train a parrot? Answer in max. 100 Words.");
+            var gptResponse = await _transformerService.GenerateChatCompletionAsync("What's the best way to train a parrot? Answer in max. 100 Words.");
             //Debug.WriteLine(gptResponse);
             // find string "parrot" in gtpResponse
             Assert.IsTrue(gptResponse.Contains("parrot"));
@@ -83,7 +85,7 @@ namespace MaskedAIChat.Core.Services.Tests
                     new ChatMessage(ChatRole.User, "What's the best way to train a parrot? Answer in max. 100 Words"),
                 }
             };
-            var gptResponse = await _gptService.GenerateChatCompletionAsync(chatOptions);
+            var gptResponse = await _transformerService.GenerateChatCompletionAsync(chatOptions);
             Debug.WriteLine(gptResponse);
             // string is larger than 5 characters
             Assert.IsTrue(gptResponse.Length > 5);
