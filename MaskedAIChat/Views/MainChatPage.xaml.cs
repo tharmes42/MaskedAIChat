@@ -19,6 +19,8 @@ public sealed partial class MainChatPage : Page
     // during PointerReleased/PointerCaptureLost/PointerCanceled/PointerExited events.
     Dictionary<uint, Microsoft.UI.Xaml.Input.Pointer> pointers;
 
+    bool _clearChatButtonConfirmationActive = false;
+    string _clearChatButtonOldValue = "";
 
     public MainChatViewModel ViewModel
     {
@@ -253,7 +255,19 @@ public sealed partial class MainChatPage : Page
 
     private void MainChat_ClearChatButton_Click(object sender, RoutedEventArgs e)
     {
-        ViewModel.ClearChat();
+        if (_clearChatButtonConfirmationActive)
+        {
+            ViewModel.ClearChat();
+            MainChat_ClearChatButton.Content = _clearChatButtonOldValue;
+            _clearChatButtonConfirmationActive = false;
+
+        }
+        else
+        {
+            _clearChatButtonConfirmationActive = true;
+            _clearChatButtonOldValue = MainChat_ClearChatButton.Content.ToString();
+            MainChat_ClearChatButton.Content = ">    ?    <";
+        }
     }
 
 
@@ -333,6 +347,22 @@ public sealed partial class MainChatPage : Page
             ViewModel.SendChat();
             e.Handled = true;
         }
+    }
+
+    private void MainChat_ExportChatButton_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.ExportChatToClipboard();
+
+    }
+
+    private void MainChat_ExportLastChatButton_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.ExportChatToClipboard(2);
+    }
+
+    private void MainChat_ClearChatButton_FocusDisengaged(Control sender, FocusDisengagedEventArgs args)
+    {
+        _clearChatButtonConfirmationActive = false;
     }
 }
 

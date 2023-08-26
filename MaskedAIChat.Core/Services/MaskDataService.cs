@@ -37,6 +37,11 @@ public class MaskDataService : IMaskDataService
         return masks;
     }
 
+    /// <summary>
+    /// uses the current masks to mask the text
+    /// </summary>
+    /// <param name="textToMask"></param>
+    /// <returns></returns>
     public string MaskText(string textToMask)
     {
         var maskedText = textToMask;
@@ -47,18 +52,20 @@ public class MaskDataService : IMaskDataService
                 maskedText = maskedText.Replace(mask.UnmaskedText, mask.MaskedText);
             }
         }
-
+        //remove trailing spaces and newlines
+        maskedText = maskedText.TrimEnd();
         return maskedText;
     }
 
-    /* Add masks for every e-Mail you find
-     * 
-     */
+    /// <summary>
+    /// Add masks for every e-Mail you find
+    /// </summary>
+    /// <param name="textToParse"></param>
     public void BuildMasks(string textToParse)
     {
-        Regex regex = new Regex(@"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b");
-        MatchCollection matches = regex.Matches(textToParse);
-        foreach (Match match in matches)
+        Regex mailRuleRegex = new Regex(@"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b");
+        MatchCollection mailRuleMatches = mailRuleRegex.Matches(textToParse);
+        foreach (Match match in mailRuleMatches)
         {
             var found = false;
             foreach (var mask in _allMasks)

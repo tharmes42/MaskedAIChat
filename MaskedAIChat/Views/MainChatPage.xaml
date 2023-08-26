@@ -83,6 +83,7 @@ sent or received, and those values are bound in the DataTemplate.-->
         <Grid x:Name="ChatLayoutRoot"  Width="Auto" Height="Auto"
               ColumnDefinitions="1*, 1*" RowDefinitions="Auto, 1*, Auto, 300">
 
+            <!--Row 0-->
             <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
                     Click="MainChat_ChatText_Paste" 
                     Margin="{StaticResource SmallTopBottomMargin}"
@@ -93,6 +94,8 @@ sent or received, and those values are bound in the DataTemplate.-->
 
                 </StackPanel>
             </Button>
+
+            <!--Row 1-->
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
 
                 <TextBlock x:Uid="MainChat_ChatText_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />
@@ -126,6 +129,9 @@ sent or received, and those values are bound in the DataTemplate.-->
                 </ScrollViewer>
             </StackPanel>
 
+            <!--Row 2-->
+            
+            <!--sendbutton-->
             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                 <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" 
                         Content="Send [Ctrl + Enter]" Click="MainChat_SendButton_Click" 
@@ -135,20 +141,32 @@ sent or received, and those values are bound in the DataTemplate.-->
                     </Button.KeyboardAccelerators>
                 </Button>
             </StackPanel>
+            
+            
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="ClearChatButton" Style="{StaticResource AccentButtonStyle}" 
+                <!--clearbutton-->
+                <Button x:Name="MainChat_ClearChatButton" x:Uid="MainChat_ClearChatButton" Style="{StaticResource AccentButtonStyle}" 
                         Content="Clear chat" 
                         Click="MainChat_ClearChatButton_Click" 
+                        FocusDisengaged="MainChat_ClearChatButton_FocusDisengaged"
+                        Margin="{StaticResource SmallLeftMargin}">
+                </Button>
+
+                <Button x:Name="MainChat_ExportChatButton" x:Uid="MainChat_ExportChatButton" Style="{StaticResource AccentButtonStyle}" 
+                        Content="Export chat" 
+                        Click="MainChat_ExportChatButton_Click" 
+                        Margin="{StaticResource SmallLeftMargin}">
+                </Button>
+
+                <Button x:Name="MainChat_ExportLastChatButton" x:Uid="MainChat_ExportLastChatButton" Style="{StaticResource AccentButtonStyle}" 
+                        Content="Export last chat" 
+                        Click="MainChat_ExportLastChatButton_Click" 
                         Margin="{StaticResource SmallLeftMargin}">
                 </Button>
             </StackPanel>
 
-            <!--<Rectangle Fill="SteelBlue" Height="100" Width="150"
-               Stroke="Black" StrokeThickness="1" RadiusY="8" RadiusX="8"/>-->
 
-            <!--<TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Uid="MainChat_ChatList_Header" Style="{ThemeResource SubtitleTextBlockStyle}" />-->
-
-
+            <!--Row 3-->
             <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="{StaticResource SmallTopBottomMargin}">
                 <ListView
                 x:Name="MainChat_InvertedListView"
@@ -157,15 +175,12 @@ sent or received, and those values are bound in the DataTemplate.-->
                 BorderThickness="1"
                 BorderBrush="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
                 Height="240"
+               
                     SelectionMode="Single"
                 IsItemClickEnabled="True"
                     ItemClick="MainChat_InvertedListView_Click"
                     
                     >
-                <!--Loaded="MainChat_InvertedListView_Loaded"
-                Unloaded="MainChat_InvertedListView_Unloaded"-->
-                
-
 
                     <!-- The ItemsStackPanel must be edited to update the following two properties -->
                     <!-- These properties allow the list to grow from the bottom -->

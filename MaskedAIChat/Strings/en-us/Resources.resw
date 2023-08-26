@@ -252,4 +252,13 @@
   <data name="Settings_DeeplApiKey_Subtitle.Text" xml:space="preserve">
     <value>Deepl API Key</value>
   </data>
+  <data name="MainChat_ClearChatButton.Content" xml:space="preserve">
+    <value>Clear chat</value>
+  </data>
+  <data name="MainChat_ExportChatButton.Content" xml:space="preserve">
+    <value>Export chat</value>
+  </data>
+  <data name="MainChat_ExportLastChatButton" xml:space="preserve">
+    <value>Export last chat</value>
+  </data>
 </root>

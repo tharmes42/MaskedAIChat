@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Azure.AI.OpenAI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MaskedAIChat.Contracts.Services;
@@ -152,26 +153,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         //           }
     }
 
-    //update the maskedchattext on chattext change
-    private void ChatChanged(object sender, RoutedEventArgs e)
-    {
-        //var source = sender as RichEditBox;
-        //if (sender == null)
-        //    return;
 
-        //MainChat_ChatText.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out var value);
-        ////save to model, so we don't loose data on navigation,
-        //chatDataService.SetChatText(value);
-
-        ////TODO: remove maskDataService from code behind
-        ////find sensitive information and build mask lisk
-        //maskDataService.BuildMasks(value);
-        ////mask the whole text based on previously constructed mask list 
-        //value = maskDataService.MaskText(value);
-        ////update destination chat with masked text
-        //REBDestination.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, value);
-
-    }
 
     //direct update of settings via XAML checkbox
     //settingskey must be passed as Checkbox CommandParameter
@@ -187,7 +169,11 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         }
     }
 
-    // react to change notfication of Model 
+    /// <summary>
+    /// react to change notfication of Model 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
@@ -249,6 +235,38 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         _chatDataService.Messages.Clear();
         _chatDataService.Messages.Add(new Message("You are a highly skilled helpful assistant.", DateTime.Now, "system", TransformerService.OpenAI));
     }
+
+    /// <summary>
+    /// Export the chat history to clipboard as text without system messages
+    /// </summary>
+    /// <param name="backIndex"> Number of messages to retrieve counting from the last message, 0 = all messages </param>
+    public void ExportChatToClipboard(int backIndex = 0)
+    {
+        //all messages except system messages
+        List<Message> messagesToExport = _chatDataService.Messages.ToList().Where(x => !x.MsgChatRole.Equals("system")).ToList();
+        //skip messages from the back
+        if (backIndex > 0)
+        {
+            messagesToExport = messagesToExport.Skip(Math.Max(0, messagesToExport.Count() - backIndex)).ToList();
+        }
+
+        var sb = new StringBuilder();
+        var package = new DataPackage();
+
+        //build text
+        foreach (var message in messagesToExport)
+        {
+            sb.AppendLine(message.MsgChatRole + " >>>");
+            sb.AppendLine(message.MsgText);
+            sb.AppendLine();
+        }
+
+        //set clipboard content
+        package.SetText(sb.ToString());
+        Clipboard.SetContent(package);
+
+    }
+
 
     //add a dummy user message to the chat history
     public void AddItemToEnd()
