@@ -6,24 +6,27 @@ MaskedAIChat is a Windows application crafted using WinUI 3. It offers users the
 
 ![MaskedAIChat Screenshot 1](./pagecontent/MaskedAIChat_Screenshot_1.png)
 ![MaskedAIChat Screenshot 2](./pagecontent/MaskedAIChat_Screenshot_2.png)
-![MaskedAIChat Screenshot 2](./pagecontent/MaskedAIChat_Screenshot_3.png)
+![MaskedAIChat Screenshot 3](./pagecontent/MaskedAIChat_Screenshot_3.png)
 
 ## Features
 
 - Real-time interaction with GPT-based language models
-- Sleek, user-friendly interface
+- E-Mail addresses are automatically masked to protect your privacy and the privacy of others
+![MaskedAIChat Screenshot 4 Masking Example](./pagecontent/MaskedAIChat_Screenshot_4_MaskingExample.png)
+- Automatic translation of messages to System Language (English by default)
+![MaskedAIChat Screenshot 5 Translation Example](./pagecontent/MaskedAIChat_Screenshot_5_TranslationExample.png)
 - Theme and settings customization options
 
 ## Prerequisites
 - __(Required)__ API Key for GPT-4 (OpenAI), you can manage your API key [here](https://platform.openai.com/account/api-keys)
-- (Optional) for better Translastions: DeepL Translator, you can manage your API key [here](https://www.deepl.com/en/account/summary)
+- (Optional) for better Translations: DeepL Translator, you can manage your API key [here](https://www.deepl.com/en/account/summary)
 - Windows 10 or later
 
 ## Prerequisites for building
 
 - Visual Studio 2022 or later
 
-## Installation
+## Building
 
 1. **Clone the Repository**
 
