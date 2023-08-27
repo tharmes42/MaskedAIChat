@@ -3,7 +3,6 @@ using System.Text;
 using Azure;
 using Azure.AI.OpenAI;
 using MaskedAIChat.Core.Contracts.Services;
-using Microsoft.Extensions.Configuration;
 
 namespace MaskedAIChat.Core.Services;
 
@@ -84,20 +83,32 @@ public class TransformerServiceOpenAI : ITransformerService
     // Generate completion with the provided ChatCompletionOptions (useful to provide chat history)
     public async Task<string> GenerateChatCompletionAsync(ChatCompletionsOptions chatCompletionsOptions)
     {
-
-        Response<StreamingChatCompletions> response = await gptClient.GetChatCompletionsStreamingAsync(
-            deploymentOrModelName: Model,
-            chatCompletionsOptions);
-        using StreamingChatCompletions streamingChatCompletions = response.Value;
-
         StringBuilder stringBuilder = new StringBuilder();
 
-        await foreach (StreamingChatChoice choice in streamingChatCompletions.GetChoicesStreaming())
+        try
         {
-            await foreach (ChatMessage message in choice.GetMessageStreaming())
+            Response<StreamingChatCompletions> response = await gptClient.GetChatCompletionsStreamingAsync(
+            deploymentOrModelName: Model,
+            chatCompletionsOptions);
+
+            using StreamingChatCompletions streamingChatCompletions = response.Value;
+
+            await foreach (StreamingChatChoice choice in streamingChatCompletions.GetChoicesStreaming())
             {
-                stringBuilder.Append(message.Content);
+                await foreach (ChatMessage message in choice.GetMessageStreaming())
+                {
+                    stringBuilder.Append(message.Content);
+                }
             }
+
+        }
+        catch (Azure.RequestFailedException requestFailedException)
+        {
+            stringBuilder.Append(requestFailedException.Message);
+        }
+        catch (Exception ex)
+        {
+            stringBuilder.Append(ex.Message);
         }
         return stringBuilder.ToString();
     }

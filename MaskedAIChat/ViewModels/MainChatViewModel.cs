@@ -68,7 +68,8 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             foreach (var message in _chatDataService.Messages)
             {
                 var alignment = message.MsgChatRole.Equals("assistant") ? HorizontalAlignment.Left : HorizontalAlignment.Right;
-                items.Add(new MessageItem(message.MsgText, message.MsgDateTime, alignment, message.MsgChatRole));
+                var waitingStatus = message.MsgChatRole.Equals("assistant") && message.MsgText.Equals("");
+                items.Add(new MessageItem(message.MsgText, message.MsgDateTime, alignment, message.MsgChatRole, waitingStatus));
             }
             return items;
         }
@@ -245,7 +246,10 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             messages.Add(new ChatMessage(message.MsgChatRole.Equals("assistant") ? ChatRole.Assistant : ChatRole.User, message.MsgText));
         }
         var chatOptions = new ChatCompletionsOptions(messages);
+        var waitMessage = new Message("", DateTime.Now, "assistant", TransformerService.OpenAI);
+        _chatDataService.Messages.Add(waitMessage);
         var gptResponse = await _transformerServiceChat.GenerateChatCompletionAsync(chatOptions);
+        _chatDataService.Messages.Remove(waitMessage);
         _chatDataService.Messages.Add(new Message(gptResponse, DateTime.Now, "assistant", TransformerService.OpenAI));
     }
 

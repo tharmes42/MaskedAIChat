@@ -79,8 +79,8 @@ sent or received, and those values are bound in the DataTemplate.-->
                         <Run Text="{x:Bind MsgDateTime}" />
                     </TextBlock>
                 </StackPanel>
-                <!--Thanks to this post for the wait ani https://stackoverflow.com/a/48838759/14880384-->
-                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                <!--I want to thank this post for the wait ani https://stackoverflow.com/a/48838759/14880384-->
+                <StackPanel Orientation="Horizontal" Visibility="{x:Bind MsgWaitingStatusVisibility}">
                     <StackPanel.Triggers>
                         <EventTrigger RoutedEvent="Rectangle.Loaded">
                             <BeginStoryboard>
