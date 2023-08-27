@@ -1,8 +1,12 @@
-# MaskedAIChat - WinUI 3 Windows App
+# MaskedAIChat - Windows App
 
 ## Overview
 
-MaskedAIChat is a Windows application crafted using WinUI 3. It offers users the ability to have text-based conversations with advanced language models like GPT (Generative Pre-trained Transformer) in real-time.
+MaskedAIChat is a Windows application to have text-based conversations with advanced language models 
+like GPT (Generative Pre-trained Transformer) through API-interaction in real-time. While it has less features than the original 
+chat apps from e.g. OpenAI it allows to control privacy like automatic masking of e-mail addresses.
+
+Note: This is a hobby project and not affiliated with OpenAI or DeepL. You need to have a valid API key for GPT-4 (OpenAI) which may cause costs.
 
 ![MaskedAIChat Screenshot 1](./pagecontent/MaskedAIChat_Screenshot_1.png)
 ![MaskedAIChat Screenshot 2](./pagecontent/MaskedAIChat_Screenshot_2.png)
