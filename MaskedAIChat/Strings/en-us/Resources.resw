@@ -196,10 +196,10 @@
     <value>About this application</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Mask confidential information while chatting with LLMs like GPT-4</value>
+    <value>Mask confidential information while chatting with LLMs like GPT-4. For privacy statement and to report bugs or suggestions see</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
-    <value>Privacy Statement</value>
+    <value>https://github.com/tharmes42/MaskedAIChat</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://github.com/tharmes42/MaskedAIChat</value>
@@ -208,7 +208,7 @@
     <value>Masked Data Grid</value>
   </data>
   <data name="Settings_ApiKey_Subtitle.Text" xml:space="preserve">
-    <value>openAI API Key</value>
+    <value>Chat Service: openAI API Key</value>
   </data>
   <data name="MainChat_ChatText_Header.Text" xml:space="preserve">
     <value>Input your chat text</value>
@@ -219,10 +219,10 @@
   <data name="Settings_ApiKey_Help.Text" xml:space="preserve">
     <value>You can manage your secret API keys in your openAI account settings:</value>
   </data>
-  <data name="Settings_ApiKey_OpenAILink.Content" xml:space="preserve">
+  <data name="Settings_ApiKey_Link.Content" xml:space="preserve">
     <value>https://platform.openai.com/account/api-keys</value>
   </data>
-  <data name="Settings_ApiKey_OpenAILink.NavigateUri" xml:space="preserve">
+  <data name="Settings_ApiKey_Link.NavigateUri" xml:space="preserve">
     <value>https://platform.openai.com/account/api-keys</value>
   </data>
   <data name="MainChat_ChatList_Header.Text" xml:space="preserve">
@@ -241,16 +241,16 @@
     <value>Reuse</value>
   </data>
   <data name="Settings_DeeplApiKey_Help.Text" xml:space="preserve">
-    <value>You can manage your secret API keys in your openAI account settings:</value>
+    <value>Note: If no key is provided, chat service will be used for translation. You can manage your secret API key in your Deepl account settings:</value>
   </data>
-  <data name="Settings_DeeplApiKey_OpenAILink.Content" xml:space="preserve">
+  <data name="Settings_DeeplApiKey_Link.Content" xml:space="preserve">
     <value>https://www.deepl.com/en/account/summary</value>
   </data>
-  <data name="Settings_DeeplApiKey_OpenAILink.NavigateUri" xml:space="preserve">
+  <data name="Settings_DeeplApiKey_Link.NavigateUri" xml:space="preserve">
     <value>https://www.deepl.com/en/account/summary</value>
   </data>
   <data name="Settings_DeeplApiKey_Subtitle.Text" xml:space="preserve">
-    <value>Deepl API Key</value>
+    <value>Translation Service: Deepl API Key</value>
   </data>
   <data name="MainChat_ClearChatButton.Content" xml:space="preserve">
     <value>Clear chat</value>
@@ -263,5 +263,11 @@
   </data>
   <data name="FlyoutElementTranslateToolTip.Content" xml:space="preserve">
     <value>Translate</value>
+  </data>
+  <data name="MainChat_SendButton_ServiceNotInitalizedWarning.Text" xml:space="preserve">
+    <value>Chat Service not initialized. Please check API key in settings.</value>
+  </data>
+  <data name="Settings_RevealModeCheckBox.Content" xml:space="preserve">
+    <value>Show keys</value>
   </data>
 </root>

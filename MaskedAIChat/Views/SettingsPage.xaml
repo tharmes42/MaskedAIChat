@@ -13,9 +13,11 @@
     <Grid>
         <StackPanel
             x:Name="ContentArea">
-            <TextBlock x:Uid="Settings_ApiKey_Subtitle" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                <!--API OpenAI-->
+                <TextBlock x:Uid="Settings_ApiKey_Subtitle" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
                 <PasswordBox 
                     Name="Settings_ApiKey"
                     Password="{x:Bind ViewModel.ApiKey, Mode=TwoWay}"
@@ -27,16 +29,11 @@
                     AutomationProperties.Name="API Key" 
                     />
                 
-                <TextBlock
-                x:Uid="Settings_ApiKey_Help"
-                Margin="{StaticResource XSmallTopMargin}"
-                Style="{ThemeResource BodyTextBlockStyle}" />
-                <HyperlinkButton x:Uid="Settings_ApiKey_OpenAILink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
-                
+                <TextBlock x:Uid="Settings_ApiKey_Help" Margin="{StaticResource XSmallTopMargin}" Style="{ThemeResource BodyTextBlockStyle}" />
+                <HyperlinkButton x:Uid="Settings_ApiKey_Link" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+
+                <!--API Deepl-->
                 <TextBlock x:Uid="Settings_DeeplApiKey_Subtitle" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-                <TextBlock x:Uid="Settings_DeeplApiKey_Subtitle2" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
                 <PasswordBox 
                     Name="Settings_DeeplApiKey"
                     Password="{x:Bind ViewModel.DeeplApiKey, Mode=TwoWay}"
@@ -48,13 +45,10 @@
                     AutomationProperties.Name="Deepl API Key" 
                     />
 
-                <TextBlock
-                x:Uid="Settings_DeeplApiKey_Help"
-                Margin="{StaticResource XSmallTopMargin}"
-                Style="{ThemeResource BodyTextBlockStyle}" />
+                <TextBlock x:Uid="Settings_DeeplApiKey_Help" Margin="{StaticResource XSmallTopMargin}" Style="{ThemeResource BodyTextBlockStyle}" />
                 <HyperlinkButton x:Uid="Settings_DeeplApiKey_Link" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
 
-                <CheckBox Name="revealModeCheckBox" Content="Show key" IsChecked="False"
+                <CheckBox Name="RevealModeCheckBox" x:Uid="Settings_RevealModeCheckBox" IsChecked="False"
                     Checked="RevealModeCheckbox_Changed" Unchecked="RevealModeCheckbox_Changed"/>
 
 

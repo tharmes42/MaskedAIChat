@@ -49,6 +49,15 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         }
     }
 
+    public bool IsGptServiceInitialized => _transformerServiceChat != null && _transformerServiceChat.IsInitialized;
+    public bool IsDeeplServiceInitialized => _transformerServiceTranslate != null && _transformerServiceTranslate.IsInitialized;
+
+    //well, in the future this may not be necessary anymore https://github.com/microsoft/microsoft-ui-xaml/issues/5514
+
+    public Visibility ChatServiceWarningVisibility => IsGptServiceInitialized ? Visibility.Collapsed : Visibility.Visible;
+    public Visibility TranslationServiceWarningVisibility => IsDeeplServiceInitialized ? Visibility.Collapsed : Visibility.Visible;
+
+
     //https://stackoverflow.com/questions/73521265/binding-and-changing-a-listview-dynamically-using-mvvm
 
     public ObservableCollection<MessageItem> MessageItems
@@ -95,7 +104,15 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             //todo: handle problems with api key
             _transformerServiceChat.InitializeTransformerService(cacheApiKey, "gpt-4");
 
-            if (!_transformerServiceChat.IsInitialized) throw new Exception("Failed to initalize GPT Service");
+            if (!_transformerServiceChat.IsInitialized)
+            {
+                throw new Exception("Failed to initalize GPT Service");
+            }
+            else
+            {
+                RaisePropertyChanged(nameof(IsGptServiceInitialized));
+                RaisePropertyChanged(nameof(ChatServiceWarningVisibility));
+            }
             //_gptService.InitializeGptService(_apiKey, "gpt-4");
 
         }
@@ -106,7 +123,15 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             //todo: handle problems with api key
             _transformerServiceTranslate.InitializeTransformerService(cacheDeeplApiKey, "DE");
 
-            if (!_transformerServiceTranslate.IsInitialized) throw new Exception("Failed to initalize Translation Service");
+            if (!_transformerServiceTranslate.IsInitialized)
+            {
+                throw new Exception("Failed to initalize Translation Service");
+            }
+            else
+            {
+                RaisePropertyChanged(nameof(IsDeeplServiceInitialized));
+                RaisePropertyChanged(nameof(TranslationServiceWarningVisibility));
+            }
             //_gptService.InitializeGptService(_apiKey, "gpt-4");
 
         }

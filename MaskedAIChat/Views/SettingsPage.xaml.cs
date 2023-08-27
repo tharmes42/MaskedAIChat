@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace MaskedAIChat.Views;
 
-// TODO: Set the URL for your privacy policy by updating SettingsPage_PrivacyTermsLink.NavigateUri in Resources.resw.
+
 public sealed partial class SettingsPage : Page
 {
 
@@ -39,8 +39,8 @@ public sealed partial class SettingsPage : Page
     {
         //PasswordBox passwordBox1 = this.FindName(ViewModel.SettingsKey_ApiKey) as PasswordBox;
 
-        
-        if (revealModeCheckBox.IsChecked == true)
+
+        if (RevealModeCheckBox.IsChecked == true)
         {
             Settings_ApiKey.PasswordRevealMode = PasswordRevealMode.Visible;
             Settings_DeeplApiKey.PasswordRevealMode = PasswordRevealMode.Visible;
