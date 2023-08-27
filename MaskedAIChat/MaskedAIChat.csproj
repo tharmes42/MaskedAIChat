@@ -14,15 +14,16 @@
 	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>5911FF27EDC0C9C04ED0E53985438E665B24AB64</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>30C2A6B1CE375951895CDF77B45291256B67AFBE</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
     <AppInstallerUri>C:\DATEN\Application\MaskedAIChat</AppInstallerUri>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Views\MaskDataGridPage.xaml" />

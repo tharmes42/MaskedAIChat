@@ -79,6 +79,23 @@ sent or received, and those values are bound in the DataTemplate.-->
                         <Run Text="{x:Bind MsgDateTime}" />
                     </TextBlock>
                 </StackPanel>
+                <!--Thanks to this post for the wait ani https://stackoverflow.com/a/48838759/14880384-->
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                    <StackPanel.Triggers>
+                        <EventTrigger RoutedEvent="Rectangle.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="waitingAnimation" RepeatBehavior="Forever">
+                                    <DoubleAnimation Storyboard.TargetName="Dot1" BeginTime="0:0:0.1" Storyboard.TargetProperty="Opacity" From=".1" To="1" AutoReverse="True" Duration="0:0:0.4"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot2" BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From=".1" To="1" AutoReverse="True" Duration="0:0:0.4"/>
+                                    <DoubleAnimation Storyboard.TargetName="Dot3" BeginTime="0:0:0.3" Storyboard.TargetProperty="Opacity" From=".1" To="1" AutoReverse="True" Duration="0:0:0.4"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </StackPanel.Triggers>
+                    <Ellipse Name="Dot1" Fill="White" Opacity=".1" Width="8" Height="8"/>
+                    <Ellipse Name="Dot2" Fill="White" Opacity=".1" Width="8" Height="8" Margin="2,0,0,0"/>
+                    <Ellipse Name="Dot3" Fill="White" Opacity=".1" Width="8" Height="8" Margin="2,0,0,0"/>
+                </StackPanel>
             </Grid>
         </DataTemplate>
 
@@ -220,7 +237,6 @@ sent or received, and those values are bound in the DataTemplate.-->
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         </Style>
                     </ListView.ItemContainerStyle>
-
                 </ListView>
             </StackPanel>
 
