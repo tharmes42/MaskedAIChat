@@ -1,0 +1,33 @@
+Privacy Policy for MaskedAIChat
+Last Updated: 31.08.2023
+
+## Personal Information
+
+This application may collect and store user's personally identifiable information such as e-mail adresses in order to mask and protect them. These information are not transmitted and only stored locally. However be aware that by using this chat application you may reveal your entered private information and/or your identity to the AI services that are called from this app (e.g. OpenAI, Deepl etc.).
+
+## Technical Information
+
+Limited technical information, such as IP addresses, is automatically sent by your device during the use of the application. However, this information is not used or stored by the application.
+
+## Statistical Information
+
+The application may send a small set of non-identifiable information for statistical information about app usage to Microsoft. This data is strictly used for understanding usage patterns and enhancing user experience.
+
+## Third Parties
+
+This application does make use of third-party services that may collect or use your information (such as OpenAI and Deepl). See the privacy policies of these third-party services for more information. You can avoid transmitting your information to these third-party services by not using the application and/or not entering an API key for these services.
+
+## License
+
+https://github.com/tharmes42/MaskedAIChat/blob/main/LICENSE.txt
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Contact Us
+
+If you have any questions about this Privacy Policy or would like to report any violations, please contact us using the contact form https://github.com/tharmes42/MaskedAIChat/issues.

@@ -105,7 +105,7 @@ public class RichEditBoxExtension
             switch (state)
             {
                 case RichEditChangeState.Idle:
-                    string text = null;
+                    var text = "";
                     richEdit.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out text);
                     if (text != GetPlainText(o))
                     {
