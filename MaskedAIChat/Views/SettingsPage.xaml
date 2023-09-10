@@ -31,6 +31,11 @@
                 
                 <TextBlock x:Uid="Settings_ApiKey_Help" Margin="{StaticResource XSmallTopMargin}" Style="{ThemeResource BodyTextBlockStyle}" />
                 <HyperlinkButton x:Uid="Settings_ApiKey_Link" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+                
+                <!--TextBox for system prompt-->
+                <TextBlock x:Uid="Settings_ChatSystemPrompt_Label" Margin="{StaticResource XSmallTopMargin}" Style="{ThemeResource BodyTextBlockStyle}" />
+                <TextBox Name="Settings_ChatSystemPrompt" TextWrapping="Wrap" AcceptsReturn="True" IsSpellCheckEnabled="False"
+                             MinWidth="400" Text="{x:Bind ViewModel.ChatSystemPrompt, Mode=TwoWay}" PlaceholderText="You are a helpful assistant." TextChanged="{x:Bind ViewModel.SettingChanged_SaveAsync}"/>
 
                 <!--API Deepl-->
                 <TextBlock x:Uid="Settings_DeeplApiKey_Subtitle" Style="{ThemeResource SubtitleTextBlockStyle}" />

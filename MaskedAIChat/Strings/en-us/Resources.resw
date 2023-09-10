@@ -258,7 +258,7 @@
   <data name="MainChat_ExportChatButton.Content" xml:space="preserve">
     <value>Export chat</value>
   </data>
-  <data name="MainChat_ExportLastChatButton" xml:space="preserve">
+  <data name="MainChat_ExportLastChatButton.Content" xml:space="preserve">
     <value>Export last chat</value>
   </data>
   <data name="FlyoutElementTranslateToolTip.Content" xml:space="preserve">
@@ -269,5 +269,11 @@
   </data>
   <data name="Settings_RevealModeCheckBox.Content" xml:space="preserve">
     <value>Show keys</value>
+  </data>
+  <data name="MainChat_SendButton.Content" xml:space="preserve">
+    <value>Send [Ctrl + Enter]</value>
+  </data>
+  <data name="Settings_ChatSystemPrompt_Label.Text" xml:space="preserve">
+    <value>System prompt</value>
   </data>
 </root>

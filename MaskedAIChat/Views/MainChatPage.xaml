@@ -159,7 +159,8 @@ sent or received, and those values are bound in the DataTemplate.-->
             
             <!--sendbutton-->
             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                <Button x:Name="SendButton" Style="{StaticResource AccentButtonStyle}" 
+                <Button x:Name="MainChat_SendButton" x:Uid="MainChat_SendButton" 
+                        Style="{StaticResource AccentButtonStyle}" 
                         Content="Send [Ctrl + Enter]" Click="MainChat_SendButton_Click" 
                         Margin="{StaticResource SmallRightMargin}"
                         IsEnabled="{x:Bind ViewModel.IsGptServiceInitialized, Mode=OneWay}"

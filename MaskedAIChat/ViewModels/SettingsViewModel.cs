@@ -16,6 +16,7 @@ public partial class SettingsViewModel : ObservableRecipient
 {
     // settings key names, not defined as const because it is used in page xaml
     public string SettingsKey_ApiKey => _localSettingsService.SettingsKey_ApiKey;
+    public string SettingsKey_ChatSystemPrompt => _localSettingsService.SettingsKey_ChatSystemPrompt;
     public string SettingsKey_DeeplApiKey => _localSettingsService.SettingsKey_DeeplApiKey;
 
 
@@ -33,6 +34,9 @@ public partial class SettingsViewModel : ObservableRecipient
     private string _apiKey;
 
     [ObservableProperty]
+    private string _chatSystemPrompt;
+
+    [ObservableProperty]
     private string _deeplApiKey;
 
     public ICommand SwitchThemeCommand
@@ -48,6 +52,7 @@ public partial class SettingsViewModel : ObservableRecipient
         _versionDescription = GetVersionDescription();
         _apiKey = ""; // ApiKey = ""; would work as well, is later initialized by InitializeModelAsync()
         _deeplApiKey = "";
+        _chatSystemPrompt = "You are a highly skilled helpful assistant.";
 
         //TODO: check if this also can by handled by SettingChanged_SaveAsync
         SwitchThemeCommand = new RelayCommand<ElementTheme>(
@@ -65,16 +70,24 @@ public partial class SettingsViewModel : ObservableRecipient
     // read all settings from local settings service
     public async Task InitializeModelAsync()
     {
-        var cacheApiKey = await _localSettingsService.ReadSettingAsync<string>(SettingsKey_ApiKey);
-        if (!String.IsNullOrEmpty(cacheApiKey))
+        var setting_value = "";
+        setting_value = await _localSettingsService.ReadSettingAsync<string>(SettingsKey_ApiKey);
+        if (!String.IsNullOrEmpty(setting_value))
         {
-            ApiKey = cacheApiKey;
+            ApiKey = setting_value;
         }
 
-        var cacheDeeplApiKey = await _localSettingsService.ReadSettingAsync<string>(SettingsKey_DeeplApiKey);
-        if (!String.IsNullOrEmpty(cacheDeeplApiKey))
+        setting_value = await _localSettingsService.ReadSettingAsync<string>(SettingsKey_ChatSystemPrompt);
+        if (!String.IsNullOrEmpty(setting_value))
         {
-            DeeplApiKey = cacheDeeplApiKey;
+            ChatSystemPrompt = setting_value;
+        }
+
+
+        setting_value = await _localSettingsService.ReadSettingAsync<string>(SettingsKey_DeeplApiKey);
+        if (!String.IsNullOrEmpty(setting_value))
+        {
+            DeeplApiKey = setting_value;
         }
 
         await Task.CompletedTask;
@@ -113,6 +126,21 @@ public partial class SettingsViewModel : ObservableRecipient
                 await _localSettingsService.SaveSettingAsync(settingsKey, settingsVal);
             }
         }
+
+        if (sender is TextBox)
+        {
+
+            var settingsKey = (sender as TextBox)?.Name;
+            var settingsVal = (sender as TextBox)?.Text;
+
+            if (settingsKey != null && settingsVal != null)
+            {
+
+                await _localSettingsService.SaveSettingAsync(settingsKey, settingsVal);
+            }
+        }
+
+
 
 
     }
