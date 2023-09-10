@@ -25,6 +25,7 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
     private ITransformerService _transformerServiceChat;
     private ITransformerService _transformerServiceTranslate;
     private readonly ILocalSettingsService _localSettingsService;
+    private string _chatSystemPrompt;
     int messageNumber;
 
     public string ChatText
@@ -84,26 +85,26 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
         _transformerServiceChat = new TransformerServiceOpenAI();
         _transformerServiceTranslate = new TransformerServiceDeepl();
         _localSettingsService = localSettingsService;
-
+        _chatSystemPrompt = "";
 
         _chatDataService.PropertyChanged += OnModelPropertyChanged;
-        if (_chatDataService.Messages.Count == 0)
-        {
-            ClearChat();
-        }
-
         ChatText = "";
+
+
+
+
 
     }
 
     // read all settings from local settings service
     public async Task InitializeModelAsync()
     {
-        var cacheApiKey = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_ApiKey);
-        if (!String.IsNullOrEmpty(cacheApiKey))
+        var setting_value = "";
+        setting_value = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_ApiKey);
+        if (!String.IsNullOrEmpty(setting_value))
         {
             //todo: handle problems with api key
-            _transformerServiceChat.InitializeTransformerService(cacheApiKey, "gpt-4");
+            _transformerServiceChat.InitializeTransformerService(setting_value, "gpt-4");
 
             if (!_transformerServiceChat.IsInitialized)
             {
@@ -117,12 +118,26 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             //_gptService.InitializeGptService(_apiKey, "gpt-4");
 
         }
+        else
+        {
+            Debug.WriteLine("No API Key found in local settings");
+        }
 
-        var cacheDeeplApiKey = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_DeeplApiKey);
-        if (!String.IsNullOrEmpty(cacheDeeplApiKey))
+        setting_value = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_ChatSystemPrompt);
+        if (!String.IsNullOrEmpty(setting_value))
+        {
+            _chatSystemPrompt = setting_value;
+        }
+        else
+        {
+            Debug.WriteLine("No chat system prompt found in local settings");
+        }
+
+        setting_value = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_DeeplApiKey);
+        if (!String.IsNullOrEmpty(setting_value))
         {
             //todo: handle problems with api key
-            _transformerServiceTranslate.InitializeTransformerService(cacheDeeplApiKey, "DE");
+            _transformerServiceTranslate.InitializeTransformerService(setting_value, "DE");
 
             if (!_transformerServiceTranslate.IsInitialized)
             {
@@ -135,6 +150,16 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             }
             //_gptService.InitializeGptService(_apiKey, "gpt-4");
 
+        }
+        else
+        {
+            Debug.WriteLine("No Translation Service API Key found in local settings");
+        }
+
+
+        if (_chatDataService.Messages.Count == 0)
+        {
+            ClearChat();
         }
 
         await Task.CompletedTask;
@@ -302,7 +327,14 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
     public void ClearChat()
     {
         _chatDataService.Messages.Clear();
-        _chatDataService.Messages.Add(new Message("You are a highly skilled helpful assistant.", DateTime.Now, "system", TransformerService.OpenAI));
+        if (_chatSystemPrompt != null && _chatSystemPrompt != "")
+        {
+            _chatDataService.Messages.Add(new Message(_chatSystemPrompt, DateTime.Now, "system", TransformerService.OpenAI));
+        }
+        else
+        {
+            _chatDataService.Messages.Add(new Message("You are a highly skilled helpful assistant.", DateTime.Now, "system", TransformerService.OpenAI));
+        }
     }
 
     /// <summary>

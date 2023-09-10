@@ -24,6 +24,7 @@ public class ChatDataService : IChatDataService
         }
     }
 
+
     //chat history
     //private ObservableCollection<Message> _messages;
     //public ObservableCollection<Message> Messages

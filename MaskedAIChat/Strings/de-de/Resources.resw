@@ -124,79 +124,79 @@
     <value>MaskedAIChat</value>
   </data>
   <data name="Shell_MainChat.Content" xml:space="preserve">
-    <value>Main Chat</value>
+    <value>Hauptchat</value>
   </data>
   <data name="Shell_Blank.Content" xml:space="preserve">
-    <value>Blank</value>
+    <value>Leer</value>
   </data>
   <data name="WebView_Loading.Text" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Lädt...</value>
   </data>
   <data name="WebView_FailedMessage.Text" xml:space="preserve">
-    <value>Page failed to load. Check connection and reload.</value>
+    <value>Seite konnte nicht geladen werden. Überprüfen Sie die Verbindung und laden Sie neu.</value>
   </data>
   <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Browser back</value>
+    <value>Zurück</value>
   </data>
   <data name="BrowserBackButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Browser back</value>
+    <value>Zurück</value>
   </data>
   <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Browser forward</value>
+    <value>Vor</value>
   </data>
   <data name="BrowserForwardButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Browser forward</value>
+    <value>Vor</value>
   </data>
   <data name="WebView_Reload.Content" xml:space="preserve">
-    <value>Reload</value>
+    <value>Neu laden</value>
   </data>
   <data name="ReloadButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Reload</value>
+    <value>Neu laden</value>
   </data>
   <data name="ReloadButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Reload</value>
+    <value>Neu laden</value>
   </data>
   <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open in browser</value>
+    <value>Im Browser öffnen</value>
   </data>
   <data name="OpenInBrowserButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Open in browser</value>
+    <value>Im Browser öffnen</value>
   </data>
   <data name="Shell_WebView.Content" xml:space="preserve">
     <value>WebView</value>
   </data>
   <data name="ListDetails_NoSelection.Text" xml:space="preserve">
-    <value>Select an item from the list.</value>
+    <value>Wählen Sie einen Eintrag aus der Liste.</value>
   </data>
   <data name="Shell_ListDetails.Content" xml:space="preserve">
-    <value>ListDetails</value>
+    <value>Listendetails</value>
   </data>
   <data name="Shell_ContentGrid.Content" xml:space="preserve">
-    <value>ContentGrid</value>
+    <value>Inhaltsraster</value>
   </data>
   <data name="Shell_DataGrid.Content" xml:space="preserve">
-    <value>DataGrid</value>
+    <value>Datenraster</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
-    <value>Personalization</value>
+    <value>Personalisierung</value>
   </data>
   <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>Theme</value>
+    <value>Thema</value>
   </data>
   <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>Light</value>
+    <value>Hell</value>
   </data>
   <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>Dark</value>
+    <value>Dunkel</value>
   </data>
   <data name="Settings_Theme_Default.Content" xml:space="preserve">
-    <value>Default</value>
+    <value>Standard</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
-    <value>About this application</value>
+    <value>Über diese Anwendung</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>Mask confidential information while chatting with LLMs like GPT-4. For privacy statement and to report bugs or suggestions see</value>
+    <value>Vertrauliche Informationen beim Chatten mit LLMs wie GPT-4 maskieren. Für die Datenschutzerklärung und um Bugs oder Vorschläge zu melden, besuchen Sie</value>
   </data>
   <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
     <value>https://github.com/tharmes42/MaskedAIChat</value>
@@ -205,19 +205,19 @@
     <value>https://github.com/tharmes42/MaskedAIChat</value>
   </data>
   <data name="Shell_MaskDataGrid.Content" xml:space="preserve">
-    <value>Masked Data Grid</value>
+    <value>Maskiertes Datenraster</value>
   </data>
   <data name="Settings_ApiKey_Subtitle.Text" xml:space="preserve">
-    <value>Chat Service: openAI API Key</value>
+    <value>Chat-Service: OpenAI API-Schlüssel</value>
   </data>
   <data name="MainChat_ChatText_Header.Text" xml:space="preserve">
-    <value>Input your chat text</value>
+    <value>Geben Sie Ihren Chat-Text ein</value>
   </data>
   <data name="MainChat_MaskedChatText_Header.Text" xml:space="preserve">
-    <value>Masked chat text </value>
+    <value>Maskierter Chat-Text</value>
   </data>
   <data name="Settings_ApiKey_Help.Text" xml:space="preserve">
-    <value>You can manage your secret API keys in your openAI account settings:</value>
+    <value>Sie können Ihre geheimen API-Schlüssel in Ihren OpenAI-Kontoeinstellungen verwalten:</value>
   </data>
   <data name="Settings_ApiKey_Link.Content" xml:space="preserve">
     <value>https://platform.openai.com/account/api-keys</value>
@@ -225,23 +225,41 @@
   <data name="Settings_ApiKey_Link.NavigateUri" xml:space="preserve">
     <value>https://platform.openai.com/account/api-keys</value>
   </data>
+  <data name="FlyoutElementCopyToolTip.Content" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="FlyoutElementReuseToolTip.Content" xml:space="preserve">
+    <value>Wiederverwenden</value>
+  </data>
+  <data name="FlyoutElementShareToolTip.Content" xml:space="preserve">
+    <value>Teilen</value>
+  </data>
+  <data name="FlyoutElementTranslateToolTip.Content" xml:space="preserve">
+    <value>Übersetzen</value>
+  </data>
   <data name="MainChat_ChatList_Header.Text" xml:space="preserve">
     <value>Chat</value>
   </data>
-  <data name="FlyoutElementCopyToolTip.Content" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="FlyoutElementShareToolTip.Content" xml:space="preserve">
-    <value>Share</value>
-  </data>
   <data name="MainChat_ChatText_MenuPasteButtonText.Text" xml:space="preserve">
-    <value>Paste Text from the Clipboard</value>
+    <value>Text aus der Zwischenablage einfügen</value>
   </data>
-  <data name="FlyoutElementReuseToolTip.Content" xml:space="preserve">
-    <value>Reuse</value>
+  <data name="MainChat_ClearChatButton.Content" xml:space="preserve">
+    <value>Chat löschen</value>
+  </data>
+  <data name="MainChat_ExportChatButton.Content" xml:space="preserve">
+    <value>Chat exportieren</value>
+  </data>
+  <data name="MainChat_ExportLastChatButton.Content" xml:space="preserve">
+    <value>Letzten Chat exportieren</value>
+  </data>
+  <data name="MainChat_SendButton.Content" xml:space="preserve">
+    <value>Senden [Strg + Enter]</value>
+  </data>
+  <data name="MainChat_SendButton_ServiceNotInitalizedWarning.Text" xml:space="preserve">
+    <value>Chat Service not initialized. Please check API key in settings.</value>
   </data>
   <data name="Settings_DeeplApiKey_Help.Text" xml:space="preserve">
-    <value>Note: If no key is provided, chat service will be used for translation. You can manage your secret API key in your Deepl account settings:</value>
+    <value>Hinweis: Wenn kein Schlüssel angegeben wird, wird der Chat-Dienst für die Übersetzung verwendet. Sie können Ihren geheimen API-Schlüssel in den Einstellungen Ihres Deepl-Kontos verwalten:</value>
   </data>
   <data name="Settings_DeeplApiKey_Link.Content" xml:space="preserve">
     <value>https://www.deepl.com/en/account/summary</value>
@@ -250,30 +268,6 @@
     <value>https://www.deepl.com/en/account/summary</value>
   </data>
   <data name="Settings_DeeplApiKey_Subtitle.Text" xml:space="preserve">
-    <value>Translation Service: Deepl API Key</value>
-  </data>
-  <data name="MainChat_ClearChatButton.Content" xml:space="preserve">
-    <value>Clear chat</value>
-  </data>
-  <data name="MainChat_ExportChatButton.Content" xml:space="preserve">
-    <value>Export chat</value>
-  </data>
-  <data name="MainChat_ExportLastChatButton.Content" xml:space="preserve">
-    <value>Export last chat</value>
-  </data>
-  <data name="FlyoutElementTranslateToolTip.Content" xml:space="preserve">
-    <value>Translate</value>
-  </data>
-  <data name="MainChat_SendButton_ServiceNotInitalizedWarning.Text" xml:space="preserve">
-    <value>Chat Service not initialized. Please check API key in settings.</value>
-  </data>
-  <data name="Settings_RevealModeCheckBox.Content" xml:space="preserve">
-    <value>Show keys</value>
-  </data>
-  <data name="MainChat_SendButton.Content" xml:space="preserve">
-    <value>Send [Ctrl + Enter]</value>
-  </data>
-  <data name="Settings_ChatSystemPrompt_Label.Text" xml:space="preserve">
-    <value>System prompt</value>
+    <value>Übersetzungsdienst: Deepl API-Schlüssel</value>
   </data>
 </root>
