@@ -117,6 +117,10 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             //_gptService.InitializeGptService(_apiKey, "gpt-4");
 
         }
+        else
+        {
+            Debug.WriteLine("No API Key found in local settings");
+        }
 
         var cacheDeeplApiKey = await _localSettingsService.ReadSettingAsync<string>(_localSettingsService.SettingsKey_DeeplApiKey);
         if (!String.IsNullOrEmpty(cacheDeeplApiKey))
@@ -136,7 +140,10 @@ public partial class MainChatViewModel : ObservableRecipient, INotifyPropertyCha
             //_gptService.InitializeGptService(_apiKey, "gpt-4");
 
         }
-
+        else
+        {
+            Debug.WriteLine("No Translation Service API Key found in local settings");
+        }
         await Task.CompletedTask;
     }
 
